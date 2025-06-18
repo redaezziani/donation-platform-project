@@ -1,67 +1,63 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '@/contexts/AuthContext';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-
-// Form validation schema
-const loginSchema = z.object({
-  email: z.string().email('يرجى إدخال بريد إلكتروني صحيح'),
-  password: z.string().min(1, 'كلمة المرور مطلوبة'),
-});
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useAuth } from "../contexts/AuthContext";
+import { useTranslation } from 'react-i18next';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  
+  const [error, setError] = useState("");
+
+  // Dynamic validation schema with translations
+  const loginSchema = z.object({
+    email: z.string()
+      .min(1, t('validation.emailRequired'))
+      .email(t('validation.emailInvalid')),
+    password: z.string().min(1, t('validation.passwordRequired')),
+  });
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
-  
+
   const onSubmit = async (data) => {
-    setIsLoading(true);
-    setError('');
-    
     try {
-      const result = await login(data);
-      if (result.success) {
-        navigate('/dashboard');
-      } else {
-        setError(result.error || 'Login failed. Please check your credentials.');
-      }
+      setIsLoading(true);
+      setError("");
+      await login(data);
+      navigate("/");
     } catch (err) {
-      setError('An error occurred. Please try again later.');
-      console.error(err);
+      setError(err.message || t('common.error'));
     } finally {
       setIsLoading(false);
     }
   };
-  
+
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-background">
-      <div className="w-full max-w-md">
-        <Card
-        className=" border-dashed"
-        >
-          <span
-          className=' flex w-full flex-col justify-start items-start p-6 space-y-2' 
-          >
-            <CardTitle className="text-2xl text-center font-AlRaiMediaBold">تسجيل الدخول</CardTitle>
-            <p className="text-sm text-center text-muted-foreground">
-                الرجاء إدخال البريد الإلكتروني وكلمة المرور لتسجيل الدخول.
-            </p>
-          </span>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <Card className="w-full">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl text-center font-AlRaiMediaBold">
+              {t('auth.login')}
+            </CardTitle>
+            <CardDescription className="text-sm text-center text-muted-foreground">
+              {t('auth.loginSubtext')}
+            </CardDescription>
+          </CardHeader>
           <CardContent>
             {error && (
               <div className="p-3 mb-4 text-sm text-white rounded bg-destructive">
@@ -76,7 +72,7 @@ const LoginPage = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>البريد الإلكتروني</FormLabel>
+                      <FormLabel>{t('auth.email')}</FormLabel>
                       <FormControl>
                         <Input 
                           type="email" 
@@ -94,7 +90,7 @@ const LoginPage = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>كلمة المرور</FormLabel>
+                      <FormLabel>{t('auth.password')}</FormLabel>
                       <FormControl>
                         <Input 
                           type="password" 
@@ -112,16 +108,16 @@ const LoginPage = () => {
                   className="w-full" 
                   disabled={isLoading}
                 >
-                  {isLoading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+                  {isLoading ? t('auth.loggingIn') : t('auth.login')}
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-center text-muted-foreground">
-              ليس لديك حساب؟{' '}
+              {t('auth.noAccount')}{' '}
               <Link to="/register" className="text-primary hover:underline">
-                سجل هنا
+                {t('auth.registerHere')}
               </Link>
             </p>
           </CardFooter>

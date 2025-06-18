@@ -1,44 +1,34 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth } from "@/contexts/AuthContext";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import { useAuth } from "../contexts/AuthContext";
+import { useTranslation } from 'react-i18next';
 import { Button } from "@/components/ui/button";
-
-// Form validation schema
-const registerSchema = z.object({
-  email: z.string().email("يرجى إدخال بريد إلكتروني صحيح"),
-  username: z
-    .string()
-    .min(3, "يجب أن يكون اسم المستخدم 3 أحرف على الأقل")
-    .max(50, "لا يمكن أن يتجاوز اسم المستخدم 50 حرفًا")
-    .regex(/^[a-zA-Z0-9]+$/, "يجب أن يكون اسم المستخدم أحرفًا وأرقامًا فقط"),
-  password: z.string().min(8, "يجب أن تكون كلمة المرور 8 أحرف على الأقل"),
-  full_name: z.string().optional(),
-});
+import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Dynamic validation schema with translations
+  const registerSchema = z.object({
+    email: z.string()
+      .min(1, t('validation.emailRequired'))
+      .email(t('validation.emailInvalid')),
+    username: z.string()
+      .min(1, t('validation.usernameRequired'))
+      .max(50, t('validation.usernameMaxLength'))
+      .regex(/^[a-zA-Z0-9]+$/, t('validation.usernameInvalid')),
+    password: z.string().min(8, t('validation.passwordMinLength')),
+    full_name: z.string().optional(),
+  });
 
   const form = useForm({
     resolver: zodResolver(registerSchema),
@@ -51,37 +41,30 @@ const RegisterPage = () => {
   });
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
-    setError("");
-
     try {
-      const result = await register(data);
-
-      if (result.success) {
-        navigate("/dashboard");
-      } else {
-        setError(result.error || "Registration failed. Please try again.");
-      }
+      setIsLoading(true);
+      setError("");
+      await register(data);
+      navigate("/");
     } catch (err) {
-      setError("An error occurred. Please try again later.");
-      console.error(err);
+      setError(err.message || t('common.error'));
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 bg-background">
-      <div className="w-full max-w-md">
-        <Card className="border-dashed">
-          <span className=" flex w-full flex-col justify-start items-start p-6 space-y-2">
-            <CardTitle className="text-2xl text-center font-AlRaiMediaBold">
-              تسجيل حساب جديد
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <Card className="w-full">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold text-center">
+              {t('auth.createAccount')}
             </CardTitle>
-            <p className="text-sm text-center text-muted-foreground">
-              الرجاء إدخال البريد الإلكتروني وكلمة المرور لإنشاء حساب جديد.
-            </p>
-          </span>
+            <CardDescription className="text-center">
+              {t('auth.registerSubtext')}
+            </CardDescription>
+          </CardHeader>
           <CardContent>
             {error && (
               <div className="p-3 mb-4 text-sm text-white rounded bg-destructive">
@@ -99,7 +82,7 @@ const RegisterPage = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>البريد الإلكتروني</FormLabel>
+                      <FormLabel>{t('auth.email')}</FormLabel>
                       <FormControl>
                         <Input
                           type="email"
@@ -117,11 +100,11 @@ const RegisterPage = () => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>اسم المستخدم</FormLabel>
+                      <FormLabel>{t('auth.username')}</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="اسم المستخدم"
+                          placeholder={t('auth.username')}
                           {...field}
                         />
                       </FormControl>
@@ -135,11 +118,11 @@ const RegisterPage = () => {
                   name="full_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>الاسم الكامل (اختياري)</FormLabel>
+                      <FormLabel>{t('auth.fullNameOptional')}</FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="اسمك الكامل"
+                          placeholder={t('auth.fullName')}
                           {...field}
                         />
                       </FormControl>
@@ -153,7 +136,7 @@ const RegisterPage = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>كلمة المرور</FormLabel>
+                      <FormLabel>{t('auth.password')}</FormLabel>
                       <FormControl>
                         <Input
                           type="password"
@@ -167,16 +150,16 @@ const RegisterPage = () => {
                 />
 
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "جاري إنشاء الحساب..." : "تسجيل"}
+                  {isLoading ? t('auth.creatingAccount') : t('auth.register')}
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-center">
-              لديك حساب بالفعل؟{" "}
+              {t('auth.alreadyHaveAccount')}{" "}
               <Link to="/login" className="text-primary hover:underline">
-                سجل الدخول هنا
+                {t('auth.loginHere')}
               </Link>
             </p>
           </CardFooter>

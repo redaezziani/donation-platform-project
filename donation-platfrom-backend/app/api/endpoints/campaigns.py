@@ -37,6 +37,7 @@ async def create_new_campaign(
     start_date: Optional[str] = Form(None),
     end_date: Optional[str] = Form(None),
     campaign_status: Optional[str] = Form("draft"),
+    lang: str = Form("en", description="Language code (e.g., en, ar, fr, ru)"),
     image: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
@@ -119,7 +120,8 @@ async def create_new_campaign(
         start_date=parsed_start_date,
         end_date=parsed_end_date,
         status=parsed_campaign_status,
-        image_path=image_path
+        image_path=image_path,
+        lang=lang
     )
     
     return create_campaign(db, campaign_data, current_user.id)
@@ -189,17 +191,18 @@ async def read_campaigns_paginated(
     page: int = Query(1, ge=1, description="Page number (1-based)"),
     page_size: int = Query(10, ge=1, le=100, description="Number of items per page"),
     status: Optional[CampaignStatus] = Query(None, description="Filter by campaign status"),
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru)"),
     db: Session = Depends(get_db)
 ):
     """
-    Retrieve campaigns with proper pagination metadata.
+    Retrieve campaigns with proper pagination metadata and optional language filtering.
     Returns paginated results with frontend-friendly metadata including:
     - Current page info
     - Total pages and items
     - Next/Previous page numbers
     - Navigation flags
     """
-    campaigns, pagination = get_campaigns_paginated(db, page, page_size, status)
+    campaigns, pagination = get_campaigns_paginated(db, page, page_size, status, lang)
     
     return PaginatedCampaignsResponse(
         items=campaigns,
@@ -212,14 +215,15 @@ async def search_campaigns_endpoint(
     page: int = Query(1, ge=1, description="Page number (1-based)"),
     page_size: int = Query(10, ge=1, le=100, description="Number of items per page"),
     status: Optional[CampaignStatus] = Query(None, description="Filter by campaign status"),
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru)"),
     db: Session = Depends(get_db)
 ):
     """
-    Search campaigns by keyword with proper pagination metadata.
+    Search campaigns by keyword with proper pagination metadata and optional language filtering.
     This endpoint performs a search across campaign titles, descriptions, and content,
-    returning campaigns that match the provided keyword.
+    returning campaigns that match the provided keyword and language.
     """
-    campaigns, pagination = search_campaigns(db, keyword, page, page_size, status)
+    campaigns, pagination = search_campaigns(db, keyword, page, page_size, status, lang)
     
     return PaginatedCampaignsResponse(
         items=campaigns,
@@ -230,15 +234,16 @@ async def search_campaigns_endpoint(
 async def read_my_campaigns_paginated(
     page: int = Query(1, ge=1, description="Page number (1-based)"),
     page_size: int = Query(10, ge=1, le=100, description="Number of items per page"),
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru)"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """
-    Retrieve user's campaigns with proper pagination metadata.
+    Retrieve user's campaigns with proper pagination metadata and optional language filtering.
     This endpoint requires authentication and returns paginated results
     with frontend-friendly metadata.
     """
-    campaigns, pagination = get_campaigns_by_creator_paginated(db, current_user.id, page, page_size)
+    campaigns, pagination = get_campaigns_by_creator_paginated(db, current_user.id, page, page_size, lang)
     
     return PaginatedCampaignsResponse(
         items=campaigns,
@@ -250,39 +255,42 @@ async def read_campaigns(
     skip: int = 0,
     limit: int = 100,
     status: Optional[CampaignStatus] = None,
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru)"),
     db: Session = Depends(get_db)
 ):
     """
-    Retrieve all campaigns with optional status filter (legacy endpoint).
+    Retrieve all campaigns with optional status and language filter (legacy endpoint).
     For better frontend support, use /paginated endpoint instead.
     """
-    return get_campaigns(db, skip, limit, status)
+    return get_campaigns(db, skip, limit, status, lang)
 
 @router.get("/me", response_model=List[CampaignResponse])
 async def read_my_campaigns(
     skip: int = 0,
     limit: int = 100,
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru)"),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """
-    Retrieve all campaigns created by the authenticated user.
+    Retrieve all campaigns created by the authenticated user with optional language filtering.
     This endpoint requires authentication.
     """
-    return get_campaigns_by_creator(db, current_user.id, skip, limit)
+    return get_campaigns_by_creator(db, current_user.id, skip, limit, lang)
 
 @router.get("/public", response_model=PaginatedCampaignsResponse)
 async def read_public_campaigns_paginated(
     page: int = Query(1, ge=1, description="Page number (1-based)"),
     page_size: int = Query(10, ge=1, le=100, description="Number of items per page"),
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru)"),
     db: Session = Depends(get_db)
 ):
     """
-    Retrieve only active campaigns that have been approved by admins.
+    Retrieve only active campaigns that have been approved by admins with optional language filtering.
     This endpoint is meant for public display on the home page.
     """
     # Enforce ACTIVE status for public display
-    campaigns, pagination = get_campaigns_paginated(db, page, page_size, CampaignStatus.ACTIVE)
+    campaigns, pagination = get_campaigns_paginated(db, page, page_size, CampaignStatus.ACTIVE, lang)
     
     return PaginatedCampaignsResponse(
         items=campaigns,

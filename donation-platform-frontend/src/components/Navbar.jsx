@@ -1,8 +1,9 @@
-import { BookOpenIcon, InfoIcon, LifeBuoyIcon } from "lucide-react"
-
+import { BookOpenIcon, InfoIcon, LifeBuoyIcon, UserIcon, LogOutIcon, Settings, HeartHandshake, CircleDollarSign, LayoutDashboard, Search, Globe } from "lucide-react"
+import { Link } from "react-router-dom"
+import { useAuth } from "../contexts/AuthContext"
+import { useTranslation } from 'react-i18next'
 import { cn } from "../lib/utils"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -16,57 +17,90 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "../components/ui/popover"
-import { Link } from "react-router-dom"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu"
+import {
+  Avatar,
+  AvatarFallback,
+} from "../components/ui/avatar"
 import SearchBar from "./SearchBar"
-
-const navigationLinks = [
-  { href: "/", label: "الرئيسية" },
-  {
-    label: "التبرعات",
-    submenu: true,
-    type: "description",
-    items: [
-      {
-        href: "/campaigns",
-        label: "تصفح الحملات",
-        description: "استعرض جميع الحملات الخيرية النشطة.",
-      },
-      {
-        href: "/create-campaign",
-        label: "إنشاء حملة",
-        description: "قم بإنشاء حملة تبرعات جديدة للقضية التي تهمك.",
-      },
-      {
-        href: "/dashboard",
-        label: "لوحة التحكم",
-        description: "إدارة حملاتك والتبرعات المقدمة.",
-      },
-    ],
-  },
-  {
-    label: "المجالات",
-    submenu: true,
-    type: "simple",
-    items: [
-      { href: "/categories/water", label: "مشاريع المياه" },
-      { href: "/categories/education", label: "تعليم الأيتام" },
-      { href: "/categories/medical", label: "مساعدات طبية" },
-      { href: "/categories/food", label: "الإغاثة الغذائية" },
-    ],
-  },
-  {
-    label: "عن المنصة",
-    submenu: true,
-    type: "icon",
-    items: [
-      { href: "/about", label: "من نحن", icon: "InfoIcon" },
-      { href: "/how-it-works", label: "كيف تعمل المنصة", icon: "BookOpenIcon" },
-      { href: "/contact", label: "اتصل بنا", icon: "LifeBuoyIcon" },
-    ],
-  },
-]
+import LanguageSwitcher from "./LanguageSwitcher"
 
 export default function Navbar() {
+  const { user, isAuthenticated, logout } = useAuth()
+  const { t } = useTranslation()
+  
+  // Navigation links with translations
+  const navigationLinks = [
+    { href: "/", label: t('navigation.home') },
+    {
+      label: t('navigation.donations'),
+      submenu: true,
+      type: "description",
+      items: [
+        {
+          href: "/campaigns",
+          label: t('navigation.browseCampaigns'),
+          description: t('navigation.browseCampaignsDesc', 'Browse all active charitable campaigns.'),
+        },
+        {
+          href: "/create-campaign",
+          label: t('navigation.createCampaign'),
+          description: t('navigation.createCampaignDesc', 'Create a new donation campaign for a cause you care about.'),
+        },
+        {
+          href: "/dashboard",
+          label: t('navigation.dashboard'),
+          description: t('navigation.dashboardDesc', 'Manage your campaigns and donations.'),
+        },
+      ],
+    },
+    {
+      label: t('navigation.categories'),
+      submenu: true,
+      type: "simple",
+      items: [
+        { href: "/categories/water", label: t('navigation.waterProjects') },
+        { href: "/categories/education", label: t('navigation.orphanEducation') },
+        { href: "/categories/medical", label: t('navigation.medicalAid') },
+        { href: "/categories/food", label: t('navigation.foodRelief') },
+      ],
+    },
+    {
+      label: t('navigation.aboutPlatform'),
+      submenu: true,
+      type: "icon",
+      items: [
+        { href: "/about", label: t('navigation.aboutUs'), icon: "InfoIcon" },
+        { href: "/how-it-works", label: t('navigation.howItWorks'), icon: "BookOpenIcon" },
+        { href: "/contact", label: t('navigation.contact'), icon: "LifeBuoyIcon" },
+      ],
+    },
+  ]
+  
+  // Get user's initials for avatar
+  const getUserInitial = () => {
+    if (user?.username) {
+      return user.username.charAt(0).toUpperCase();
+    }
+    if (user?.full_name) {
+      return user.full_name.charAt(0).toUpperCase();
+    }
+    return 'U';
+  }
+
+  // Get display name
+  const getDisplayName = () => {
+    return user?.full_name || user?.username || t('common.user', 'User');
+  }
+
   return (
    <div className="w-full bg-muted flex justify-center items-center fixed top-0 z-50 ">
      <header className=" w-full max-w-7xl px-4 md:px-6">
@@ -108,64 +142,81 @@ export default function Navbar() {
                 </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-64 p-1 md:hidden">
-              <NavigationMenu className="max-w-none *:w-full">
-                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                  {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      {link.submenu ? (
-                        <>
-                          <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
+            <PopoverContent align="start" className="w-80 p-2 md:hidden">
+              {/* Mobile Search Bar */}
+              <div className="mb-4 px-1">
+                <SearchBar />
+              </div>
+              
+              {/* Mobile Language Switcher */}
+              <div className="mb-4 px-1">
+                <div className="flex items-center gap-2 text-muted-foreground text-xs font-medium mb-2">
+                  <Globe size={14} />
+                  <span>{t('common.language', 'Language')}</span>
+                </div>
+                <LanguageSwitcher />
+              </div>
+              
+              <div className="border-t pt-3">
+                <NavigationMenu className="max-w-none *:w-full">
+                  <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
+                    {navigationLinks.map((link, index) => (
+                      <NavigationMenuItem key={index} className="w-full">
+                        {link.submenu ? (
+                          <>
+                            <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
+                              {link.label}
+                            </div>
+                            <ul>
+                              {link.items.map((item, itemIndex) => (
+                                <li key={itemIndex}>
+                                  <NavigationMenuLink
+                                    href={item.href}
+                                    className="py-1.5"
+                                  >
+                                    {item.label}
+                                  </NavigationMenuLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        ) : (
+                          <NavigationMenuLink href={link.href} className="py-1.5">
                             {link.label}
-                          </div>
-                          <ul>
-                            {link.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <NavigationMenuLink
-                                  href={item.href}
-                                  className="py-1.5"
-                                >
-                                  {item.label}
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      ) : (
-                        <NavigationMenuLink href={link.href} className="py-1.5">
-                          {link.label}
-                        </NavigationMenuLink>
-                      )}
-                      {/* Add separator between different types of items */}
-                      {index < navigationLinks.length - 1 &&
-                        // Show separator if:
-                        // 1. One is submenu and one is simple link OR
-                        // 2. Both are submenus but with different types
-                        ((!link.submenu &&
-                          navigationLinks[index + 1].submenu) ||
-                          (link.submenu &&
-                            !navigationLinks[index + 1].submenu) ||
-                          (link.submenu &&
-                            navigationLinks[index + 1].submenu &&
-                            link.type !== navigationLinks[index + 1].type)) && (
-                          <div
-                            role="separator"
-                            aria-orientation="horizontal"
-                            className="bg-border -mx-1 my-1 h-px w-full"
-                          />
+                          </NavigationMenuLink>
                         )}
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-              </NavigationMenu>
+                        {/* Add separator between different types of items */}
+                        {index < navigationLinks.length - 1 &&
+                          // Show separator if:
+                          // 1. One is submenu and one is simple link OR
+                          // 2. Both are submenus but with different types
+                          ((!link.submenu &&
+                            navigationLinks[index + 1].submenu) ||
+                            (link.submenu &&
+                              !navigationLinks[index + 1].submenu) ||
+                            (link.submenu &&
+                              navigationLinks[index + 1].submenu &&
+                              link.type !== navigationLinks[index + 1].type)) && (
+                            <div
+                              role="separator"
+                              aria-orientation="horizontal"
+                              className="bg-border -mx-1 my-1 h-px w-full"
+                            />
+                          )}
+                      </NavigationMenuItem>
+                    ))}
+                  </NavigationMenuList>
+                </NavigationMenu>
+              </div>
             </PopoverContent>
           </Popover>
+          
           {/* Main nav */}
           <div className="flex items-center gap-6">
             <a href="/" className="text-primary text-2xl  font-AlRaiMediaBold hover:text-primary/90">
-            قلب واحد
+            {t('footer.brandName')}
             </a>
-            {/* Navigation menu */}
+            {/* Navigation menu - Desktop only */}
             <NavigationMenu viewport={false} className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
@@ -256,16 +307,76 @@ export default function Navbar() {
             </NavigationMenu>
           </div>
         </div>
+        
         {/* Right side */}
-        <div className="flex items-center gap-6">
-          <SearchBar />
-          <Button asChild variant="outline" size="sm" className="text-sm">
-            <Link href="/login">تسجيل الدخول</Link>
-          </Button>
-          <Button 
-          asChild size="sm" className="text-sm">
-            <Link href="/register">إنشاء حساب</Link>
-          </Button>
+        <div className="flex items-center gap-3">
+          {/* Desktop Search and Language - Hidden on mobile */}
+          <div className="hidden md:flex items-center gap-3">
+            <SearchBar />
+            <LanguageSwitcher />
+          </div>
+          
+          {/* User menu - Always visible */}
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8 cursor-pointer">
+                    <AvatarFallback className="bg-primary/10 text-primary">{getUserInitial()}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium leading-none">{getDisplayName()}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard">
+                      <UserIcon className="ml-2 h-4 w-4" />
+                      <span>{t('navigation.dashboard')}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  
+                  <DropdownMenuItem asChild>
+                    <Link to="/create-campaign">
+                      <HeartHandshake className="ml-2 h-4 w-4" />
+                      <span>{t('navigation.createCampaign')}</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  {user?.is_admin && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin">
+                        <LayoutDashboard className="ml-2 h-4 w-4" />
+                        <span>{t('admin.adminPanel')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuItem onClick={logout}>
+                    <LogOutIcon className="ml-2 h-4 w-4" />
+                    <span>{t('auth.logout')}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button asChild variant="outline" size="sm" className="text-sm">
+                <Link to="/login">{t('auth.login')}</Link>
+              </Button>
+              <Button asChild size="sm" className="text-sm max-sm:hidden">
+                <Link to="/register">{t('auth.createAccount')}</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

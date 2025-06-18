@@ -25,6 +25,7 @@ class Campaign(Base):
     end_date = Column(DateTime(timezone=True))
     status = Column(Enum(CampaignStatus), default=CampaignStatus.DRAFT)
     image_path = Column(String(255))  # Changed from image_url to image_path for file uploads
+    lang = Column(String(10), default="en", nullable=False)  # Language field for multi-language support
     
     # Foreign keys
     creator_id = Column(Integer, ForeignKey("users.id"))

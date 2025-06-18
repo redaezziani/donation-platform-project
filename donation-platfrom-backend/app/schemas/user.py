@@ -23,6 +23,7 @@ class UserResponse(UserBase):
     id: int
     full_name: Optional[str] = None
     is_active: bool
+    is_admin: bool = False
     
     class Config:
         from_attributes = True

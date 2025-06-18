@@ -19,6 +19,7 @@ def create_campaign(db: Session, campaign_data: CampaignCreate, creator_id: int)
         end_date=campaign_data.end_date,
         status=campaign_data.status or CampaignStatus.DRAFT,
         image_path=campaign_data.image_path,
+        lang=campaign_data.lang,
         creator_id=creator_id
     )
     
@@ -37,14 +38,18 @@ def get_campaigns_paginated(
     db: Session, 
     page: int = 1,
     page_size: int = 10,
-    status: Optional[CampaignStatus] = None
+    status: Optional[CampaignStatus] = None,
+    lang: Optional[str] = None
 ) -> Tuple[List[Campaign], PaginationMeta]:
-    """Get campaigns with proper pagination metadata."""
+    """Get campaigns with proper pagination metadata and optional language filter."""
     # Build base query
     query = db.query(Campaign)
     
     if status:
         query = query.filter(Campaign.status == status)
+    
+    if lang:
+        query = query.filter(Campaign.lang == lang)
     
     # Get total count
     total_items = query.count()
@@ -74,11 +79,15 @@ def get_campaigns_by_creator_paginated(
     db: Session, 
     creator_id: int,
     page: int = 1,
-    page_size: int = 10
+    page_size: int = 10,
+    lang: Optional[str] = None
 ) -> Tuple[List[Campaign], PaginationMeta]:
-    """Get campaigns by creator with proper pagination metadata."""
+    """Get campaigns by creator with proper pagination metadata and optional language filter."""
     # Build base query
     query = db.query(Campaign).filter(Campaign.creator_id == creator_id)
+    
+    if lang:
+        query = query.filter(Campaign.lang == lang)
     
     # Get total count
     total_items = query.count()
@@ -108,13 +117,17 @@ def get_campaigns(
     db: Session, 
     skip: int = 0, 
     limit: int = 100,
-    status: Optional[CampaignStatus] = None
+    status: Optional[CampaignStatus] = None,
+    lang: Optional[str] = None
 ) -> List[Campaign]:
-    """Get all campaigns with optional filtering by status (legacy method)."""
+    """Get all campaigns with optional filtering by status and language (legacy method)."""
     query = db.query(Campaign)
     
     if status:
         query = query.filter(Campaign.status == status)
+    
+    if lang:
+        query = query.filter(Campaign.lang == lang)
     
     return query.order_by(Campaign.created_at.desc()).offset(skip).limit(limit).all()
 
@@ -122,15 +135,16 @@ def get_campaigns_by_creator(
     db: Session, 
     creator_id: int,
     skip: int = 0, 
-    limit: int = 100
+    limit: int = 100,
+    lang: Optional[str] = None
 ) -> List[Campaign]:
     """Get all campaigns created by a specific user (legacy method)."""
-    return db.query(Campaign)\
-        .filter(Campaign.creator_id == creator_id)\
-        .order_by(Campaign.created_at.desc())\
-        .offset(skip)\
-        .limit(limit)\
-        .all()
+    query = db.query(Campaign).filter(Campaign.creator_id == creator_id)
+    
+    if lang:
+        query = query.filter(Campaign.lang == lang)
+    
+    return query.order_by(Campaign.created_at.desc()).offset(skip).limit(limit).all()
 
 def update_campaign(db: Session, campaign_id: int, campaign_data: CampaignUpdate):
     """Update an existing campaign."""
@@ -187,9 +201,10 @@ def search_campaigns(
     keyword: str,
     page: int = 1,
     page_size: int = 10,
-    status: Optional[CampaignStatus] = None
+    status: Optional[CampaignStatus] = None,
+    lang: Optional[str] = None
 ) -> Tuple[List[Campaign], PaginationMeta]:
-    """Search campaigns by keyword with proper pagination metadata."""
+    """Search campaigns by keyword with proper pagination metadata and optional language filter."""
     # Build base query
     query = db.query(Campaign)
     
@@ -207,6 +222,10 @@ def search_campaigns(
     # Apply status filter if provided
     if status:
         query = query.filter(Campaign.status == status)
+    
+    # Apply language filter if provided
+    if lang:
+        query = query.filter(Campaign.lang == lang)
     
     # Get total count
     total_items = query.count()

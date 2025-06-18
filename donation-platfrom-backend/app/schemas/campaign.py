@@ -31,6 +31,7 @@ class CampaignBase(BaseModel):
     end_date: Optional[datetime] = None
     image_path: Optional[str] = None  # Changed from image_url to image_path
     status: Optional[CampaignStatus] = CampaignStatus.DRAFT
+    lang: str = Field(default="en", min_length=2, max_length=10, description="Language code (e.g., en, ar, fr, ru)")
     
 class CampaignCreate(CampaignBase):
     pass
@@ -44,6 +45,7 @@ class CampaignUpdate(BaseModel):
     end_date: Optional[datetime] = None
     image_path: Optional[str] = None  # Changed from image_url to image_path
     status: Optional[CampaignStatus] = None
+    lang: Optional[str] = Field(None, min_length=2, max_length=10, description="Language code (e.g., en, ar, fr, ru)")
 
 class CampaignResponse(CampaignBase):
     id: int

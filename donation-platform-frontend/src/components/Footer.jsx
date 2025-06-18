@@ -1,45 +1,65 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-card border-t mt-16">
-      <div className="max-w-7xl mx-auto py-12 px-4 md:px-6">
+    <footer className="bg-muted/50 border-t">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Logo and short description */}
-          <div className="col-span-1 md:col-span-1">
-            <Link to="/" className="text-primary text-2xl font-AlRaiMediaBold mb-4 inline-block">
-              قلب واحد
-            </Link>
-            <p className="text-muted-foreground mt-4 text-sm">
-              منصة تبرعات تهدف إلى تسهيل عملية دعم المشاريع الخيرية والإنسانية في مختلف المجالات.
+          {/* Brand & Description */}
+          <div className="col-span-1 md:col-span-2">
+            <div className="flex items-center mb-4">
+              <h2 className="text-xl font-AlRaiMediaBold text-primary">{t('footer.brandName')}</h2>
+            </div>
+            <p className="text-muted-foreground text-sm mb-6 max-w-md">
+              {t('footer.newsletterDescription')}
             </p>
+            <div className="flex gap-2 max-w-sm">
+              <input
+                type="email"
+                placeholder={t('footer.emailPlaceholder')}
+                className="flex-1 px-3 py-2 text-sm border border-input rounded-md bg-background"
+              />
+              <button className="h-10 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
+                {t('footer.subscribe')}
+              </button>
+            </div>
           </div>
 
           {/* Quick Links */}
           <div className="col-span-1">
-            <h3 className="font-bold text-lg mb-4">روابط سريعة</h3>
+            <h3 className="font-bold text-lg mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">الرئيسية</Link>
+                <Link to="/" className="text-muted-foreground hover:text-primary transition-colors">
+                  {t('footer.home')}
+                </Link>
               </li>
               <li>
-                <Link to="/campaigns" className="text-muted-foreground hover:text-primary transition-colors">تصفح الحملات</Link>
+                <Link to="/campaigns" className="text-muted-foreground hover:text-primary transition-colors">
+                  {t('footer.browseCampaigns')}
+                </Link>
               </li>
               <li>
-                <Link to="/create-campaign" className="text-muted-foreground hover:text-primary transition-colors">إنشاء حملة</Link>
+                <Link to="/create-campaign" className="text-muted-foreground hover:text-primary transition-colors">
+                  {t('footer.createCampaign')}
+                </Link>
               </li>
               <li>
-                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">عن المنصة</Link>
+                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
+                  {t('footer.aboutPlatform')}
+                </Link>
               </li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div className="col-span-1">
-            <h3 className="font-bold text-lg mb-4">اتصل بنا</h3>
+            <h3 className="font-bold text-lg mb-4">{t('footer.contactUs')}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,29 +75,11 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
-          {/* Newsletter */}
-          <div className="col-span-1">
-            <h3 className="font-bold text-lg mb-4">النشرة البريدية</h3>
-            <p className="text-muted-foreground text-sm mb-4">
-              اشترك في نشرتنا البريدية للبقاء على اطلاع بأحدث الحملات والأخبار
-            </p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="بريدك الإلكتروني"
-                className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-ring"
-              />
-              <button className="h-10 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
-                اشتراك
-              </button>
-            </div>
-          </div>
         </div>
 
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} قلب واحد. جميع الحقوق محفوظة
+            &copy; {currentYear} {t('footer.brandName')}. {t('footer.copyright')}
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-muted-foreground hover:text-primary mx-2">
@@ -87,15 +89,15 @@ const Footer = () => {
               </svg>
             </a>
             <a href="#" className="text-muted-foreground hover:text-primary mx-2">
-              <span className="sr-only">Instagram</span>
-              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" />
-              </svg>
-            </a>
-            <a href="#" className="text-muted-foreground hover:text-primary mx-2">
               <span className="sr-only">Twitter</span>
               <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+              </svg>
+            </a>
+            <a href="#" className="text-muted-foreground hover:text-primary mx-2">
+              <span className="sr-only">Instagram</span>
+              <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fillRule="evenodd" d="M12.017 0C8.396 0 7.999.01 6.756.048 5.517.086 4.668.222 3.935.42a7.934 7.934 0 00-2.868 1.869A7.901 7.901 0 00.42 5.222C.222 5.955.086 6.804.048 8.042.01 9.285 0 9.682 0 13.304s.01 4.02.048 5.264c.038 1.238.174 2.087.372 2.82.196 1.076.512 1.986 1.199 2.711a7.784 7.784 0 002.868 1.869c.733.198 1.582.334 2.82.372C7.999 23.99 8.396 24 12.017 24s4.018-.01 5.264-.048c1.238-.038 2.087-.174 2.82-.372a7.898 7.898 0 002.869-1.869 7.784 7.784 0 001.198-2.711c.198-.733.335-1.582.372-2.82.039-1.244.048-1.641.048-5.264s-.01-4.02-.048-5.264c-.037-1.238-.174-2.087-.372-2.82a7.898 7.898 0 00-1.198-2.711A7.784 7.784 0 0020.131.42c-.733-.198-1.582-.334-2.82-.372C16.035.01 15.638 0 12.017 0zm0 5.838a7.466 7.466 0 110 14.932 7.466 7.466 0 010-14.932zM12.017 18.305a4.839 4.839 0 100-9.678 4.839 4.839 0 000 9.678zm9.495-12.852a1.745 1.745 0 11-3.49 0 1.745 1.745 0 013.49 0z" clipRule="evenodd" />
               </svg>
             </a>
           </div>

@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin  "@tailwindcss/typography";
+
+/* Markdown Editor Styles */
+@import '@uiw/react-md-editor/markdown-editor.css';
+@import '@uiw/react-markdown-preview/markdown.css';
+
 @font-face {
   font-family: 'Samsung';
   src: url('/public/SamsungOneArabic.ttf') format('truetype');
@@ -19,10 +24,36 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Base styles for RTL/LTR support */
 body{
+  font-family: 'Samsung', sans-serif;
+}
+
+/* RTL specific styles */
+body.rtl, [dir="rtl"] {
   direction: rtl;
   text-align: right;
-  font-family: 'Samsung', sans-serif;
+}
+
+/* LTR specific styles */
+body.ltr, [dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Font overrides for different languages */
+[lang="ar"] {
+  font-family: 'Samsung', 'AlRaiMediaBold', sans-serif;
+}
+
+[lang="en"], [lang="fr"], [lang="es"], [lang="ru"] {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Override heading fonts for Arabic */
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3, [lang="ar"] h4, [lang="ar"] h5, [lang="ar"] h6,
+[lang="ar"] .font-AlRaiMediaBold {
+  font-family: 'AlRaiMediaBold', sans-serif;
 }
 
 @theme{
@@ -34,6 +65,28 @@ body{
   color: #ff6944e7;
   color : oklch(0.646 0.222 41.116);
 }
+
+/* RTL/LTR utility classes */
+.rtl-flip {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(1);
+}
+
+/* Language switcher animation */
+.language-switch-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.language-switch-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

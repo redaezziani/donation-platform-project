@@ -1,5 +1,6 @@
 import { useId } from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { useTranslation } from 'react-i18next'
 
 import { usePagination } from "@/hooks/use-pagination"
 import { Input } from "@/components/ui/input"
@@ -28,6 +29,7 @@ export default function PaginationComponent({
   onPageChange
 }) {
   const id = useId()
+  const { t } = useTranslation()
 
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage,
@@ -43,7 +45,7 @@ export default function PaginationComponent({
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-4">
+    <div className="flex w-full  md:flex-row items-center justify-between gap-4 py-4">
       {/* Pagination */}
       <div>
         <Pagination>
@@ -53,7 +55,7 @@ export default function PaginationComponent({
               <PaginationLink
                 className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
                 onClick={() => currentPage > 1 && onPageChange(currentPage - 1)}
-                aria-label="الصفحة السابقة"
+                aria-label={t('pagination.previousPage')}
                 aria-disabled={currentPage === 1 ? true : undefined}
                 role="button"
               >
@@ -93,7 +95,7 @@ export default function PaginationComponent({
               <PaginationLink
                 className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
                 onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)}
-                aria-label="الصفحة التالية"
+                aria-label={t('pagination.nextPage')}
                 aria-disabled={currentPage === totalPages ? true : undefined}
                 role="button"
               >
@@ -107,7 +109,7 @@ export default function PaginationComponent({
       {/* Go to page input */}
       <div className="flex items-center gap-3">
         <Label htmlFor={id} className="whitespace-nowrap">
-          انتقل إلى صفحة
+          {t('pagination.goToPage')}
         </Label>
         <Input
           id={id}

@@ -26,6 +26,10 @@ export const AuthProvider = ({ children }) => {
         try {
           // Verify token is still valid by fetching user profile
           const userData = await authAPI.getCurrentUser();
+          
+          // DEBUG: Log user data during initialization
+          console.log("User data on app initialization:", userData);
+          
           setUser(userData);
           setIsAuthenticated(true);
         } catch (error) {
@@ -52,6 +56,9 @@ export const AuthProvider = ({ children }) => {
 
       // Get user profile
       const userData = await authAPI.getCurrentUser();
+      
+      // DEBUG: Log user data to see if is_admin property exists
+      console.log("User data from API:", userData);
       
       // Store user data
       localStorage.setItem('user', JSON.stringify(userData));

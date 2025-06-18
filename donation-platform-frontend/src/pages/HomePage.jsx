@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { campaignsAPI, getImageUrl } from "@/lib/api";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
+import { useLanguage } from "@/hooks/useLanguage";
 import ArticalCard from "../components/card-ui/artical-card";
 import PaginationComponent from "../components/PaginationComponent";
+import CreateCampaignSheet from "../components/create-campaign";
 
 const NumberCounter = ({ value, label, icon }) => {
   const ref = React.useRef(null);
@@ -49,6 +51,7 @@ const NumberCounter = ({ value, label, icon }) => {
 };
 
 const HomePage = () => {
+  const { t, useLanguageRefresh } = useLanguage();
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -58,7 +61,7 @@ const HomePage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize] = useState(6); // Number of items per page
 
-  const fetchCampaigns = async (page = 1) => {
+  const fetchCampaigns = useCallback(async (page = 1) => {
     setLoading(true);
     setError("");
     try {
@@ -73,11 +76,11 @@ const HomePage = () => {
       }
     } catch (err) {
       console.error("Error fetching campaigns:", err);
-      setError("حدث خطأ أثناء جلب الحملات.");
+      setError(t('messages.errorLoadingData'));
     } finally {
       setLoading(false);
     }
-  };
+  }, [pageSize, t]);
 
   // Handle page change
   const handlePageChange = (page) => {
@@ -86,6 +89,13 @@ const HomePage = () => {
     // Scroll to campaigns section for better UX
     document.getElementById('campaigns-section')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  // Refresh campaigns when language changes
+  const refreshCampaigns = useCallback(() => {
+    fetchCampaigns(currentPage);
+  }, [fetchCampaigns, currentPage]);
+
+  useLanguageRefresh(refreshCampaigns);
 
   useEffect(() => {
     fetchCampaigns(currentPage);
@@ -96,24 +106,16 @@ const HomePage = () => {
       <div className="w-full flex max-h-[80vh] overflow-hidden relative">
         <article className=" z-[30] absolute inset-0 p-10 flex flex-col justify-end items-start">
           <h1 className="text-6xl font-AlRaiMediaBold font-bold text-primary mb-4">
-            مرحبًا بكم في منصة التبرعات
+            {t('home.welcomeTitle', 'مرحبًا بكم في منصة التبرعات')}
           </h1>
           <p className="text-lg text-white/80 max-w-[45rem] mb-4">
-            استعرض الحملات المتاحة على منصتنا واكتشف المبادرات الإنسانية
-            والاجتماعية التي تحتاج إلى دعمك. يمكنك اختيار القضايا التي تهمك،
-            سواء كانت متعلقة بالتعليم، الصحة، الغذاء، أو الإغاثة في حالات
-            الطوارئ. تبرعك، مهما كان حجمه، يسهم بشكل مباشر في تحسين حياة الآخرين
-            وتحقيق أثر إيجابي ملموس. كن جزءًا من التغيير وساهم في بناء مستقبل
-            أفضل!
+            {t('home.description', 'استعرض الحملات المتاحة على منصتنا واكتشف المبادرات الإنسانية والاجتماعية التي تحتاج إلى دعمك. يمكنك اختيار القضايا التي تهمك، سواء كانت متعلقة بالتعليم، الصحة، الغذاء، أو الإغاثة في حالات الطوارئ. تبرعك، مهما كان حجمه، يسهم بشكل مباشر في تحسين حياة الآخرين وتحقيق أثر إيجابي ملموس. كن جزءًا من التغيير وساهم في بناء مستقبل أفضل!')}
           </p>
           <div className="flex gap-2">
             <Link to="/about">
-            <Button variant={"secondary"}>المزيد عن المنصة</Button>
+              <Button variant={"secondary"}>{t('home.learnMore', 'المزيد عن المنصة')}</Button>
             </Link>
-          <Link to="/create-campaign">
-            <Button variant={"default"}>إنشاء حملة</Button>
-          </Link>
-
+            <CreateCampaignSheet/>
           </div>
         </article>
         <img
@@ -123,15 +125,15 @@ const HomePage = () => {
         />
       </div>
       <div className="max-w-7xl mx-auto p-4 mt-8  flex justify-between items-center gap-4 flex-wrap">
-        <NumberCounter value={1000} label="إجمالي عدد المتبرعين النشطين" icon="" />
-        <NumberCounter value={50000} label="المبلغ الإجمالي للتبرعات المستلمة" icon="" />
-        <NumberCounter value={120} label="عدد الحملات الناجحة المكتملة" icon="" />
-        <NumberCounter value={30} label="عدد الدول المشاركة في المنصة" icon="" />
+        <NumberCounter value={1000} label={t('home.stats.activeDonors', 'إجمالي عدد المتبرعين النشطين')} icon="" />
+        <NumberCounter value={50000} label={t('home.stats.totalDonations', 'المبلغ الإجمالي للتبرعات المستلمة')} icon="" />
+        <NumberCounter value={120} label={t('home.stats.completedCampaigns', 'عدد الحملات الناجحة المكتملة')} icon="" />
+        <NumberCounter value={30} label={t('home.stats.countries', 'عدد الدول المشاركة في المنصة')} icon="" />
       </div>
       <div id="campaigns-section" className="max-w-7xl  flex gap-1 flex-col items-start justify-start mx-auto p-4 mt-10">
-        <h1 className="text-xl font-bold text-center">جميع الحملات</h1>
+        <h1 className="text-xl font-bold text-center">{t('home.allCampaigns', 'جميع الحملات')}</h1>
         <p className="text-center mb-4 text-muted-foreground">
-          استعرض الحملات المتاحة وتبرع للمساعدة في تحقيق أهدافها.
+          {t('home.campaignsDescription', 'استعرض الحملات المتاحة وتبرع للمساعدة في تحقيق أهدافها.')}
         </p>
         {loading && (
           <div className="w-full flex justify-center py-8">
@@ -151,7 +153,7 @@ const HomePage = () => {
         )}
         {!loading && campaigns.length === 0 && (
           <p className="text-center text-muted-foreground mt-8">
-            لا توجد حملات متاحة حالياً.
+            {t('home.noCampaigns', 'لا توجد حملات متاحة حالياً.')}
           </p>
         )}
         {totalPages > 0 && (
@@ -165,7 +167,6 @@ const HomePage = () => {
           </div>
         )}
       </div>
-      
     </div>
   );
 };
