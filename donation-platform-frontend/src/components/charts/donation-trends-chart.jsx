@@ -1,134 +1,165 @@
-import React, { useState, useEffect } from 'react';
-import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
-import { useLanguage } from '../../hooks/useLanguage';
-import { adminAPI } from '../../lib/api';
+
+import { TrendingUp } from "lucide-react"
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  XAxis,
+} from "recharts"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card"
+import {
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "../ui/chart"
+
+import { useLanguage } from "@/hooks/useLanguage"
+import { adminAPI } from "@/lib/api"
+import React, { useEffect, useState } from "react"
 
 const chartConfig = {
   donations: {
     label: "Donations",
-    color: "#3b82f6",
+    color: "var(--chart-1)",
   },
   amount: {
     label: "Amount",
-    color: "#22c55e",
+    color: "var(--chart-2)",
   },
-};
+}
 
-export const DonationTrendsChart = () => {
-  const { t, formatCurrency } = useLanguage();
-  const [chartData, setChartData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export function DonationTrendsChart() {
+  const { t, formatCurrency } = useLanguage()
+  const [chartData, setChartData] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchTrendsData();
-  }, []);
+    fetchTrendsData()
+  }, [])
 
   const fetchTrendsData = async () => {
     try {
-      setLoading(true);
-      const data = await adminAPI.getDonationTrends();
-      setChartData(data);
+      const data = await adminAPI.getDonationTrends()
+      setChartData(data)
     } catch (error) {
-      console.error('Error fetching donation trends:', error);
-      // Generate mock data for demonstration
-      const mockData = generateMockTrendsData();
-      setChartData(mockData);
+      console.error("Error fetching donation trends:", error)
+      setChartData(generateMockTrendsData())
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const generateMockTrendsData = () => {
-    const data = [];
-    const today = new Date();
-    
+    const data = []
+    const today = new Date()
+
     for (let i = 29; i >= 0; i--) {
-      const date = new Date(today);
-      date.setDate(date.getDate() - i);
-      
+      const date = new Date(today)
+      date.setDate(date.getDate() - i)
       data.push({
-        date: date.toISOString().split('T')[0],
+        date: date.toISOString().split("T")[0],
         donations: Math.floor(Math.random() * 50) + 10,
         amount: Math.floor(Math.random() * 5000) + 1000,
-      });
+      })
     }
-    
-    return data;
-  };
+
+    return data
+  }
 
   if (loading) {
     return (
       <div className="h-64 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="h-64">
-      <ChartContainer config={chartConfig} className="w-full h-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis 
-              dataKey="date" 
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                return `${date.getMonth() + 1}/${date.getDate()}`;
+    <Card>
+      <CardHeader>
+        <CardTitle>{t("analytics.trendChartTitle")}</CardTitle>
+        <CardDescription>{t("analytics.trendChartDescription")}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig}>
+          <ResponsiveContainer width="100%" height={260}>
+            <AreaChart
+              data={chartData}
+              margin={{
+                left: 12,
+                right: 12,
               }}
-              className="text-xs"
-            />
-            <YAxis yAxisId="left" className="text-xs" />
-            <YAxis yAxisId="right" orientation="right" className="text-xs" />
-            <ChartTooltip 
-              content={
-                <ChartTooltipContent 
-                  formatter={(value, name) => {
-                    if (name === 'amount') {
-                      return [formatCurrency(value), t('analytics.totalAmount')];
+            >
+              <CartesianGrid vertical={false} strokeDasharray="3 3" />
+              <XAxis
+                dataKey="date"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => {
+                  const date = new Date(value)
+                  return `${date.getMonth() + 1}/${date.getDate()}`
+                }}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    indicator="line"
+                    formatter={(value, name) => {
+                      if (name === "amount") {
+                        return [formatCurrency(value), t("analytics.totalAmount")]
+                      }
+                      return [value, t("analytics.totalDonations")]
+                    }}
+                    labelFormatter={(label) =>
+                      new Date(label).toLocaleDateString()
                     }
-                    return [value, t('analytics.totalDonations')];
-                  }}
-                  labelFormatter={(label) => {
-                    const date = new Date(label);
-                    return date.toLocaleDateString();
-                  }}
-                />
-              } 
-            />
-            <Line 
-              type="monotone" 
-              dataKey="donations" 
-              stroke={chartConfig.donations.color}
-              strokeWidth={2}
-              dot={{ r: 3 }}
-              activeDot={{ r: 5 }}
-              yAxisId="left"
-            />
-            <Line 
-              type="monotone" 
-              dataKey="amount" 
-              stroke={chartConfig.amount.color}
-              strokeWidth={2}
-              dot={{ r: 3 }}
-              activeDot={{ r: 5 }}
-              yAxisId="right"
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </ChartContainer>
-      <div className="mt-2 flex justify-center gap-4 text-sm">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-          <span>{t('analytics.donationsCount')}</span>
+                  />
+                }
+              />
+              <Area
+                dataKey="donations"
+                type="monotone"
+                stroke="var(--chart-1)"
+                fill="var(--chart-1)"
+                fillOpacity={0.3}
+              />
+              <Area
+                dataKey="amount"
+                type="monotone"
+                stroke="var(--chart-2)"
+                fill="var(--chart-2)"
+                fillOpacity={0.3}
+              />
+              <ChartLegend content={<ChartLegendContent />} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter>
+        <div className="flex w-full items-start gap-2 text-sm">
+          <div className="grid gap-2">
+            <div className="flex items-center gap-2 leading-none font-medium">
+              {t("analytics.trendPositiveNote")} <TrendingUp className="h-4 w-4" />
+            </div>
+            <div className="text-muted-foreground flex items-center gap-2 leading-none">
+              {t("analytics.last30Days")}
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span>{t('analytics.donationAmount')}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
+      </CardFooter>
+    </Card>
+  )
+}
