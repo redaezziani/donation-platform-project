@@ -13,154 +13,67 @@ import {
   } from "./ui/sidebar"
 
   import {
-    BookOpen,
-    Bot,
+    LayoutDashboard,
+    Users,
+    HeartHandshake,
+    CircleDollarSign,
     Command,
-    Frame,
-    LifeBuoy,
-    Map,
-    PieChart,
-    Send,
-    Settings2,
-    SquareTerminal,
   } from "lucide-react"
   
   import { NavMain } from './nav-main'
   import { NavProjects } from './nav-projects'
   import { NavSecondary } from './nav-secondary'
   import { NavUser } from './nav-user'
+  import { useLanguage } from '../hooks/useLanguage'
+  import { useAuth } from '../contexts/AuthContext'
 
+
+export function AppSidebar(props) {
+  const { t,currentLanguage } = useLanguage();
+  const { user } = useAuth();
 
   const data = {
     user: {
-      name: "شادكن",
-      email: "m@example.com",
-      avatar: "/avatars/shadcn.jpg",
+      name: user?.full_name || user?.username || t('admin.admin'),
+      email: user?.email || "admin@example.com",
+      avatar: "/avatars/admin.jpg",
     },
     navMain: [
       {
-        title: "ساحة التجربة",
-        url: "#",
-        icon: SquareTerminal,
+        title: t('admin.dashboard'),
+        url: "/admin",
+        icon: LayoutDashboard,
         isActive: true,
-        items: [
-          {
-            title: "السجل",
-            url: "#",
-          },
-          {
-            title: "المميزة",
-            url: "#",
-          },
-          {
-            title: "الإعدادات",
-            url: "#",
-          },
-        ],
+        items: []
       },
       {
-        title: "النماذج",
-        url: "#",
-        icon: Bot,
-        items: [
-          {
-            title: "جينيسيس",
-            url: "#",
-          },
-          {
-            title: "إكسبلورر",
-            url: "#",
-          },
-          {
-            title: "كوانتوم",
-            url: "#",
-          },
-        ],
+        title: t('admin.userManagement'),
+        url: "/admin/users",
+        icon: Users,
+        items: []
       },
       {
-        title: "التوثيق",
-        url: "#",
-        icon: BookOpen,
-        items: [
-          {
-            title: "مقدمة",
-            url: "#",
-          },
-          {
-            title: "ابدأ الآن",
-            url: "#",
-          },
-          {
-            title: "الدروس التعليمية",
-            url: "#",
-          },
-          {
-            title: "سجل التغييرات",
-            url: "#",
-          },
-        ],
+        title: t('admin.campaignManagement'),
+        url: "/admin/campaigns",
+        icon: HeartHandshake,
+        items: []
       },
       {
-        title: "الإعدادات",
-        url: "#",
-        icon: Settings2,
-        items: [
-          {
-            title: "عام",
-            url: "#",
-          },
-          {
-            title: "الفريق",
-            url: "#",
-          },
-          {
-            title: "الفوترة",
-            url: "#",
-          },
-          {
-            title: "الحدود",
-            url: "#",
-          },
-        ],
-      },
+        title: t('admin.donationManagement'),
+        url: "/admin/donations",
+        icon: CircleDollarSign,
+        items: []
+      }
     ],
-    navSecondary: [
-      {
-        title: "الدعم",
-        url: "#",
-        icon: LifeBuoy,
-      },
-      {
-        title: "ملاحظات",
-        url: "#",
-        icon: Send,
-      },
-    ],
-    projects: [
-      {
-        name: "هندسة التصميم",
-        url: "#",
-        icon: Frame,
-      },
-      {
-        name: "المبيعات والتسويق",
-        url: "#",
-        icon: PieChart,
-      },
-      {
-        name: "السفر",
-        url: "#",
-        icon: Map,
-      },
-    ],
+    navSecondary: [],
+    projects: [],
   };
-  
-  
-  export function AppSidebar(props) {
 
 
     return (
-        <Sidebar variant="inset" {...props}>
+        <Sidebar
+        side={currentLanguage === 'ar' ? 'right' : 'left'}
+        variant="inset" {...props}>
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -171,10 +84,10 @@ import {
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">
-                        شادكن
+                        {t('common.brandName')}
                     </span>
                     <span className="truncate text-xs">
-                        لوحة التحكم
+                        {t('admin.adminPanel')}
                     </span>
                   </div>
                 </a>
@@ -184,8 +97,6 @@ import {
         </SidebarHeader>
         <SidebarContent>
           <NavMain items={data.navMain} />
-          <NavProjects projects={data.projects} />
-          <NavSecondary items={data.navSecondary} className="mt-auto" />
         </SidebarContent>
         <SidebarFooter>
           <NavUser user={data.user} />

@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List, Generic, TypeVar
 from datetime import datetime
 from app.db.models.campaign import CampaignStatus
+from app.schemas.category import Category
 
 # Generic type for pagination
 T = TypeVar('T')
@@ -34,7 +35,7 @@ class CampaignBase(BaseModel):
     lang: str = Field(default="en", min_length=2, max_length=10, description="Language code (e.g., en, ar, fr, ru)")
     
 class CampaignCreate(CampaignBase):
-    pass
+    category_ids: Optional[List[int]] = []  # List of category IDs to associate with the campaign
     
 class CampaignUpdate(BaseModel):
     title: Optional[str] = Field(None, min_length=3, max_length=255)
@@ -46,6 +47,7 @@ class CampaignUpdate(BaseModel):
     image_path: Optional[str] = None  # Changed from image_url to image_path
     status: Optional[CampaignStatus] = None
     lang: Optional[str] = Field(None, min_length=2, max_length=10, description="Language code (e.g., en, ar, fr, ru)")
+    category_ids: Optional[List[int]] = None  # List of category IDs to associate with the campaign
 
 class CampaignResponse(CampaignBase):
     id: int
@@ -53,6 +55,7 @@ class CampaignResponse(CampaignBase):
     current_amount: float
     created_at: datetime
     updated_at: Optional[datetime] = None
+    categories: List[Category] = []  # Include associated categories
     
     class Config:
         from_attributes = True

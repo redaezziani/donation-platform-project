@@ -102,7 +102,7 @@ export default function Navbar() {
   }
 
   return (
-   <div className="w-full bg-muted flex justify-center items-center fixed top-0 z-50 ">
+   <div className="w-full bg-muted border-b border-border flex justify-center items-center fixed top-0 z-50 ">
      <header className=" w-full max-w-7xl px-4 md:px-6">
       <div className="flex h-16 items-center justify-between gap-4">
         {/* Left side */}

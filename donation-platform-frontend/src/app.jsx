@@ -10,6 +10,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CampaignDetailsPage from './pages/CampaignDetailsPage';
 import CreateCampaignPage from './pages/CreateCampaignPage';
+import AboutPage from './pages/AboutPage';
+import HowItWorksPage from './pages/HowItWorksPage';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
@@ -99,6 +101,20 @@ function App() {
             <>
               <Navbar />
               <CampaignDetailsPage />
+              <Footer />
+            </>
+          } />
+          <Route path="/about" element={
+            <>
+              <Navbar />
+              <AboutPage />
+              <Footer />
+            </>
+          } />
+          <Route path="/how-it-works" element={
+            <>
+              <Navbar />
+              <HowItWorksPage />
               <Footer />
             </>
           } />

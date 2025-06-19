@@ -3,8 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { UsersIcon, HeartHandshakeIcon, DollarSignIcon, TrendingUpIcon } from 'lucide-react';
 import { adminAPI } from '../../lib/api';
 import { ChartBarInteractive } from '../../components/charts/chart-bar-interactive';
+import { useLanguage } from '../../hooks/useLanguage';
+import DashboardAnalytics from '../../components/DashboardAnalytics';
 
 const AdminDashboardPage = () => {
+  const { t, formatCurrency, formatDate } = useLanguage();
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalCampaigns: 0,
@@ -52,17 +55,9 @@ const AdminDashboardPage = () => {
     }
   };
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('ar-EG', {
-      style: 'currency',
-      currency: 'EGP',
-      minimumFractionDigits: 0
-    }).format(amount);
-  };
-
   const statCards = [
     {
-      title: "إجمالي المستخدمين",
+      title: t('admin.totalUsers'),
       value: stats.totalUsers || "N/A",
       change: "+12%",
       increasing: true,
@@ -70,7 +65,7 @@ const AdminDashboardPage = () => {
       iconColor: "text-blue-500 bg-blue-100"
     },
     {
-      title: "إجمالي الحملات",
+      title: t('admin.totalCampaigns'),
       value: stats.totalCampaigns,
       change: "+7%",
       increasing: true,
@@ -78,7 +73,7 @@ const AdminDashboardPage = () => {
       iconColor: "text-green-500 bg-green-100"
     },
     {
-      title: "إجمالي التبرعات",
+      title: t('admin.totalRaised'),
       value: formatCurrency(stats.totalRaised),
       change: "+18%",
       increasing: true,
@@ -86,7 +81,7 @@ const AdminDashboardPage = () => {
       iconColor: "text-amber-500 bg-amber-100"
     },
     {
-      title: "معدل التبرع",
+      title: t('donation.averageDonation'),
       value: formatCurrency(stats.averageDonation),
       change: "+4%",
       increasing: true,
@@ -100,7 +95,7 @@ const AdminDashboardPage = () => {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">جاري تحميل البيانات...</p>
+          <p className="text-muted-foreground">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -109,18 +104,19 @@ const AdminDashboardPage = () => {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">لوحة التحكم</h1>
+        <h1 className="text-2xl font-bold">{t('admin.dashboard')}</h1>
         <div className="text-sm text-muted-foreground">
-          آخر تحديث: {new Date().toLocaleDateString('ar-EG', { day: 'numeric', month: 'long', year: 'numeric' })}
+          {t('common.lastUpdate')}: {formatDate(new Date().toISOString())}
         </div>
       </div>
 
-     <ChartBarInteractive/>
+      <DashboardAnalytics />
+
 
       <div className="grid grid-cols-1 mt-2 lg:grid-cols-2 gap-6">
         <Card className="col-span-1">
           <CardHeader>
-            <CardTitle>أحدث الحملات المعلقة للموافقة</CardTitle>
+            <CardTitle>{t('admin.pendingApproval')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -134,18 +130,18 @@ const AdminDashboardPage = () => {
                       <div>
                         <p className="font-medium">{campaign.title}</p>
                         <p className="text-sm text-muted-foreground">
-                          الهدف: {formatCurrency(campaign.target_amount)}
+                          {t('campaign.targetAmount')}: {formatCurrency(campaign.target_amount)}
                         </p>
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <button className="px-3 py-1 text-xs bg-primary text-white rounded-md">موافقة</button>
-                      <button className="px-3 py-1 text-xs bg-destructive text-white rounded-md">رفض</button>
+                      <button className="px-3 py-1 text-xs bg-primary text-white rounded-md">{t('admin.approve')}</button>
+                      <button className="px-3 py-1 text-xs bg-destructive text-white rounded-md">{t('admin.reject')}</button>
                     </div>
                   </div>
                 ))
               ) : (
-                <p className="text-center text-muted-foreground py-8">لا توجد حملات بانتظار الموافقة</p>
+                <p className="text-center text-muted-foreground py-8">{t('admin.noPendingCampaigns')}</p>
               )}
             </div>
           </CardContent>
@@ -153,7 +149,7 @@ const AdminDashboardPage = () => {
 
         <Card className="col-span-1">
           <CardHeader>
-            <CardTitle>إحصائيات سريعة</CardTitle>
+            <CardTitle>{t('admin.statistics')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -163,8 +159,8 @@ const AdminDashboardPage = () => {
                     <HeartHandshakeIcon className="h-5 w-5 text-green-500" />
                   </div>
                   <div>
-                    <p className="font-medium">الحملات النشطة</p>
-                    <p className="text-sm text-muted-foreground">{stats.activeCampaigns} حملة</p>
+                    <p className="font-medium">{t('admin.activeCampaigns')}</p>
+                    <p className="text-sm text-muted-foreground">{stats.activeCampaigns} {t('admin.campaigns')}</p>
                   </div>
                 </div>
               </div>
@@ -175,8 +171,8 @@ const AdminDashboardPage = () => {
                     <HeartHandshakeIcon className="h-5 w-5 text-amber-500" />
                   </div>
                   <div>
-                    <p className="font-medium">بانتظار الموافقة</p>
-                    <p className="text-sm text-muted-foreground">{stats.pendingCampaigns} حملة</p>
+                    <p className="font-medium">{t('admin.pendingApproval')}</p>
+                    <p className="text-sm text-muted-foreground">{stats.pendingCampaigns} {t('admin.campaigns')}</p>
                   </div>
                 </div>
               </div>
@@ -187,7 +183,7 @@ const AdminDashboardPage = () => {
                     <DollarSignIcon className="h-5 w-5 text-purple-500" />
                   </div>
                   <div>
-                    <p className="font-medium">إجمالي المبلغ المُجمع</p>
+                    <p className="font-medium">{t('admin.totalRaised')}</p>
                     <p className="text-sm text-muted-foreground">{formatCurrency(stats.totalRaised)}</p>
                   </div>
                 </div>

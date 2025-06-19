@@ -113,7 +113,8 @@
     "joinDate": "Fecha de Registro",
     "admin": "Administrador",
     "user": "Usuario",
-    "addUser": "Agregar Usuario"
+    "addUser": "Agregar Usuario",
+    "noPendingCampaigns": "No hay campañas pendientes de aprobación"
   },
   "common": {
     "loading": "Cargando...",
@@ -248,5 +249,189 @@
     "previousPage": "Página Anterior",
     "nextPage": "Página Siguiente",
     "goToPage": "Ir a la página"
+  },
+  "about": {
+    "badge": "Acerca de Nosotros",
+    "hero": {
+      "title": "Plataforma de Donaciones Digitales",
+      "description": "Somos una plataforma digital que tiene como objetivo conectar a los donantes con campañas humanitarias y sociales impactantes. Creemos en el poder de dar para cambiar el mundo y crear un futuro mejor para todos.",
+      "browseCampaigns": "Explorar Campañas",
+      "createCampaign": "Crear Campaña"
+    },
+    "mission": {
+      "title": "Nuestra Misión",
+      "description": "Nos esforzamos por crear un mundo más justo y compasivo facilitando el proceso de donación y conectando corazones generosos con causas que necesitan apoyo. Creemos que cada donación, por pequeña que sea, puede marcar una gran diferencia en las vidas de otros.",
+      "vision": "Nuestra Visión",
+      "visionText": "Un mundo donde todos se unen para ayudar a quienes lo necesitan"
+    },
+    "features": {
+      "title": "Características de la Plataforma",
+      "subtitle": "Proporcionamos una experiencia de donación excepcional y segura que garantiza que su contribución llegue a quienes la merecen",
+      "secure": {
+        "title": "Seguridad y Confiabilidad",
+        "description": "Garantizamos la seguridad de todas las transacciones y datos personales utilizando las últimas tecnologías de cifrado"
+      },
+      "global": {
+        "title": "Alcance Global",
+        "description": "Apoyamos más de 30 países en todo el mundo en múltiples idiomas y diferentes monedas"
+      },
+      "instant": {
+        "title": "Donación Instantánea",
+        "description": "Done fácil y rápidamente a través de nuestra plataforma segura y confiable"
+      },
+      "transparent": {
+        "title": "Transparencia Completa",
+        "description": "Rastree sus donaciones y vea el impacto directo de sus contribuciones"
+      }
+    },
+    "stats": {
+      "title": "Nuestros Logros",
+      "donors": "Donantes Activos",
+      "raised": "Cantidad Recaudada",
+      "campaigns": "Campañas Exitosas",
+      "countries": "Países Participantes"
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona la Plataforma",
+      "subtitle": "Tres pasos simples para marcar la diferencia en las vidas de otros",
+      "browse": {
+        "title": "Explorar Campañas",
+        "description": "Explore diferentes campañas y elija la causa que le interese"
+      },
+      "donate": {
+        "title": "Donar de Forma Segura",
+        "description": "Elija la cantidad y done fácilmente a través de un sistema de pago seguro"
+      },
+      "track": {
+        "title": "Rastrear el Impacto",
+        "description": "Vea cómo su donación contribuyó a lograr el objetivo requerido"
+      }
+    },
+    "cta": {
+      "title": "Únase a Nosotros en el Viaje de Dar",
+      "description": "Sea parte de una comunidad de donantes que creen en el poder de dar para cambiar el mundo",
+      "startDonating": "Comenzar a Donar Ahora",
+      "createCampaign": "Crear Su Campaña"
+    }
+  },
+  "howItWorks": {
+    "badge": "Cómo Funciona",
+    "hero": {
+      "title": "Cómo Funciona Nuestra Plataforma de Donaciones",
+      "description": "Aprenda cómo funciona nuestra plataforma paso a paso, ya sea que desee donar a una campaña existente o crear una nueva campaña para una causa que le importe.",
+      "getStarted": "Comenzar Ahora"
+    },
+    "donors": {
+      "title": "Para Donantes",
+      "subtitle": "Tres pasos simples para comenzar su viaje de donación"
+    },
+    "donor": {
+      "browse": {
+        "title": "Explorar Campañas",
+        "description": "Explore las campañas disponibles y elija la causa que le interese de varios campos humanitarios y sociales",
+        "detail1": "Explorar por categoría (educación, salud, socorro, etc.)",
+        "detail2": "Leer detalles de cada campaña y sus objetivos",
+        "detail3": "Verificar el progreso de la campaña hacia su objetivo"
+      },
+      "donate": {
+        "title": "Donar de Forma Segura",
+        "description": "Elija la cantidad que desea donar y complete el proceso de pago de forma segura a través de nuestro sistema de pago encriptado",
+        "detail1": "Elegir la cantidad de donación que le convenga",
+        "detail2": "Ingresar sus detalles o donar anónimamente",
+        "detail3": "Pagar de forma segura a través de la pasarela de pago encriptada"
+      },
+      "track": {
+        "title": "Rastrear el Impacto",
+        "description": "Siga cómo su donación contribuyó a lograr los objetivos de la campaña y reciba actualizaciones regulares",
+        "detail1": "Recibir confirmación instantánea de donación",
+        "detail2": "Rastrear el progreso de la campaña en tiempo real",
+        "detail3": "Obtener actualizaciones sobre cómo se usan las donaciones"
+      }
+    },
+    "creators": {
+      "title": "Para Creadores de Campañas",
+      "subtitle": "Cómo crear una campaña exitosa en nuestra plataforma"
+    },
+    "creator": {
+      "register": {
+        "title": "Crear Cuenta",
+        "description": "Registre una nueva cuenta y verifique su identidad para garantizar transparencia y seguridad",
+        "detail1": "Llenar el formulario de registro",
+        "detail2": "Verificar su dirección de correo electrónico",
+        "detail3": "Completar el proceso de verificación de identidad"
+      },
+      "create": {
+        "title": "Crear Campaña",
+        "description": "Cree su campaña con detalles claros, objetivos específicos y adjunte los documentos requeridos",
+        "detail1": "Escribir título y descripción convincentes para la campaña",
+        "detail2": "Establecer objetivo financiero y duración",
+        "detail3": "Subir imágenes y documentos de apoyo"
+      },
+      "launch": {
+        "title": "Lanzar Campaña",
+        "description": "Después de la aprobación del administrador, publique su campaña y comience a recopilar donaciones y actualizar a los donantes",
+        "detail1": "Esperar la aprobación del equipo de revisión",
+        "detail2": "Compartir la campaña en redes sociales",
+        "detail3": "Proporcionar actualizaciones regulares a los donantes"
+      }
+    },
+    "step": "Paso",
+    "platformFeatures": {
+      "title": "Características de la Plataforma",
+      "subtitle": "Lo que hace que nuestra plataforma se destaque"
+    },
+    "features": {
+      "security": {
+        "title": "Seguridad Primero",
+        "description": "Todas las transacciones están protegidas con las últimas tecnologías de cifrado"
+      },
+      "notifications": {
+        "title": "Actualizaciones Instantáneas",
+        "description": "Reciba notificaciones instantáneas sobre el progreso de las campañas"
+      },
+      "community": {
+        "title": "Comunidad Interactiva",
+        "description": "Únase a una comunidad de donantes y organizaciones benéficas"
+      },
+      "transparency": {
+        "title": "Transparencia Completa",
+        "description": "Rastree exactamente cómo se usan sus donaciones"
+      }
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "q1": "¿Es seguro donar en la plataforma?",
+      "a1": "Sí, todas las transacciones están protegidas con las últimas tecnologías de cifrado y seguimos los más altos estándares de seguridad bancaria.",
+      "q2": "¿Cómo puedo asegurarme de que mi donación llegue a los beneficiarios?",
+      "a2": "Proporcionamos actualizaciones regulares sobre cómo se usan las donaciones e informes transparentes sobre el progreso de cada campaña.",
+      "q3": "¿Puedo crear una campaña para cualquier causa?",
+      "a3": "Aceptamos campañas humanitarias, sociales y benéficas, y cada campaña se revisa antes de la aprobación."
+    },
+    "cta": {
+      "title": "¿Listo para Comenzar?",
+      "description": "Únase a miles de donantes que están marcando una diferencia real en el mundo",
+      "browseCampaigns": "Explorar Campañas",
+      "createCampaign": "Crear Campaña"
+    }
+  },
+  "analytics": {
+    "donationTrends": "Tendencias de Donaciones",
+    "campaignStatus": "Estado de Campañas",
+    "categoryDistribution": "Distribución por Categorías",
+    "donationsCount": "Número de Donaciones",
+    "donationAmount": "Monto de Donaciones",
+    "totalAmount": "Monto Total",
+    "totalDonations": "Donaciones Totales",
+    "campaigns": "Campañas",
+    "percentage": "Porcentaje",
+    "errorLoading": "Error al cargar datos de análisis"
+  },
+  "categories": {
+    "waterProjects": "Proyectos de Agua",
+    "orphanEducation": "Educación de Huérfanos",
+    "medicalAid": "Ayuda Médica",
+    "foodRelief": "Ayuda Alimentaria",
+    "emergency": "Emergencia",
+    "other": "Otros"
   }
 }

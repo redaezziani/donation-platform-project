@@ -126,7 +126,8 @@
     "joinDate": "Join Date",
     "admin": "Admin",
     "user": "User",
-    "addUser": "Add User"
+    "addUser": "Add User",
+    "noPendingCampaigns": "No campaigns pending approval"
   },
   "common": {
     "loading": "Loading...",
@@ -267,5 +268,189 @@
     "previousPage": "Previous Page",
     "nextPage": "Next Page",
     "goToPage": "Go to page"
+  },
+  "about": {
+    "badge": "About Us",
+    "hero": {
+      "title": "Digital Donation Platform",
+      "description": "We are a digital platform that aims to connect donors with impactful humanitarian and social campaigns. We believe in the power of giving to change the world and create a better future for everyone.",
+      "browseCampaigns": "Browse Campaigns",
+      "createCampaign": "Create Campaign"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "description": "We strive to create a more just and compassionate world by facilitating the donation process and connecting generous hearts with causes that need support. We believe that every donation, no matter how small, can make a big difference in the lives of others.",
+      "vision": "Our Vision",
+      "visionText": "A world where everyone comes together to help those in need"
+    },
+    "features": {
+      "title": "Platform Features",
+      "subtitle": "We provide an exceptional and secure donation experience that ensures your contribution reaches those who deserve it",
+      "secure": {
+        "title": "Security & Reliability",
+        "description": "We ensure the security of all transactions and personal data using the latest encryption technologies"
+      },
+      "global": {
+        "title": "Global Reach",
+        "description": "We support more than 30 countries worldwide in multiple languages and different currencies"
+      },
+      "instant": {
+        "title": "Instant Donation",
+        "description": "Donate easily and quickly through our secure and reliable platform"
+      },
+      "transparent": {
+        "title": "Complete Transparency",
+        "description": "Track your donations and see the direct impact of your contributions"
+      }
+    },
+    "stats": {
+      "title": "Our Achievements",
+      "donors": "Active Donors",
+      "raised": "Amount Raised",
+      "campaigns": "Successful Campaigns",
+      "countries": "Participating Countries"
+    },
+    "howItWorks": {
+      "title": "How the Platform Works",
+      "subtitle": "Three simple steps to make a difference in others' lives",
+      "browse": {
+        "title": "Browse Campaigns",
+        "description": "Browse different campaigns and choose the cause that interests you"
+      },
+      "donate": {
+        "title": "Donate Securely",
+        "description": "Choose the amount and donate easily through a secure payment system"
+      },
+      "track": {
+        "title": "Track Impact",
+        "description": "See how your donation contributed to achieving the required goal"
+      }
+    },
+    "cta": {
+      "title": "Join Us in the Journey of Giving",
+      "description": "Be part of a community of donors who believe in the power of giving to change the world",
+      "startDonating": "Start Donating Now",
+      "createCampaign": "Create Your Campaign"
+    }
+  },
+  "howItWorks": {
+    "badge": "How It Works",
+    "hero": {
+      "title": "How Our Donation Platform Works",
+      "description": "Learn how our platform works step by step, whether you want to donate to an existing campaign or create a new campaign for a cause you care about.",
+      "getStarted": "Get Started Now"
+    },
+    "donors": {
+      "title": "For Donors",
+      "subtitle": "Three simple steps to start your giving journey"
+    },
+    "donor": {
+      "browse": {
+        "title": "Browse Campaigns",
+        "description": "Explore available campaigns and choose the cause that interests you from various humanitarian and social fields",
+        "detail1": "Browse by category (education, health, relief, etc.)",
+        "detail2": "Read details of each campaign and its objectives",
+        "detail3": "Check campaign progress towards its goal"
+      },
+      "donate": {
+        "title": "Donate Securely",
+        "description": "Choose the amount you want to donate and complete the payment process securely through our encrypted payment system",
+        "detail1": "Choose the donation amount that suits you",
+        "detail2": "Enter your details or donate anonymously",
+        "detail3": "Pay securely through encrypted payment gateway"
+      },
+      "track": {
+        "title": "Track Impact",
+        "description": "Follow how your donation contributed to achieving the campaign goals and receive regular updates",
+        "detail1": "Receive instant donation confirmation",
+        "detail2": "Track campaign progress in real-time",
+        "detail3": "Get updates on how donations are used"
+      }
+    },
+    "creators": {
+      "title": "For Campaign Creators",
+      "subtitle": "How to create a successful campaign on our platform"
+    },
+    "creator": {
+      "register": {
+        "title": "Create Account",
+        "description": "Register a new account and verify your identity to ensure transparency and security",
+        "detail1": "Fill out the registration form",
+        "detail2": "Verify your email address",
+        "detail3": "Complete identity verification process"
+      },
+      "create": {
+        "title": "Create Campaign",
+        "description": "Create your campaign with clear details, specific objectives, and attach required documents",
+        "detail1": "Write compelling campaign title and description",
+        "detail2": "Set financial goal and time duration",
+        "detail3": "Upload supporting images and documents"
+      },
+      "launch": {
+        "title": "Launch Campaign",
+        "description": "After admin approval, publish your campaign and start collecting donations and updating donors",
+        "detail1": "Wait for review team approval",
+        "detail2": "Share campaign on social media",
+        "detail3": "Provide regular updates to donors"
+      }
+    },
+    "step": "Step",
+    "platformFeatures": {
+      "title": "Platform Features",
+      "subtitle": "What makes our platform stand out"
+    },
+    "features": {
+      "security": {
+        "title": "Security First",
+        "description": "All transactions are protected with latest encryption technologies"
+      },
+      "notifications": {
+        "title": "Instant Updates",
+        "description": "Receive instant notifications about campaign progress"
+      },
+      "community": {
+        "title": "Interactive Community",
+        "description": "Join a community of donors and charitable organizations"
+      },
+      "transparency": {
+        "title": "Complete Transparency",
+        "description": "Track exactly how your donations are used"
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": "Is donating on the platform safe?",
+      "a1": "Yes, all transactions are protected with the latest encryption technologies and we follow the highest banking security standards.",
+      "q2": "How can I ensure my donation reaches the beneficiaries?",
+      "a2": "We provide regular updates on how donations are used and transparent reports on the progress of each campaign.",
+      "q3": "Can I create a campaign for any cause?",
+      "a3": "We accept humanitarian, social, and charitable campaigns, and each campaign is reviewed before approval."
+    },
+    "cta": {
+      "title": "Ready to Start?",
+      "description": "Join thousands of donors who are making a real difference in the world",
+      "browseCampaigns": "Browse Campaigns",
+      "createCampaign": "Create Campaign"
+    }
+  },
+  "analytics": {
+    "donationTrends": "Donation Trends",
+    "campaignStatus": "Campaign Status",
+    "categoryDistribution": "Category Distribution",
+    "donationsCount": "Donations Count",
+    "donationAmount": "Donation Amount",
+    "totalAmount": "Total Amount",
+    "totalDonations": "Total Donations",
+    "campaigns": "Campaigns",
+    "percentage": "Percentage",
+    "errorLoading": "Error loading analytics data"
+  },
+  "categories": {
+    "waterProjects": "Water Projects",
+    "orphanEducation": "Orphan Education",
+    "medicalAid": "Medical Aid",
+    "foodRelief": "Food Relief",
+    "emergency": "Emergency",
+    "other": "Other"
   }
 }

@@ -304,6 +304,28 @@ export const adminAPI = {
       pendingDonations: 0, // Would need specific endpoint
     };
   },
+
+  // Get donation trends data for charts
+  getDonationTrends: async (days = 30) => {
+    try {
+      const response = await api.get(`/api/v1/analytics/donation-trends?days=${days}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching donation trends:', error);
+      throw error;
+    }
+  },
+
+  // Get category distribution data
+  getCategoryDistribution: async () => {
+    try {
+      const response = await api.get('/api/v1/analytics/category-distribution');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching category distribution:', error);
+      throw error;
+    }
+  },
 };
 
 // Analytics API functions

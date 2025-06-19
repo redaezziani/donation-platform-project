@@ -4,7 +4,9 @@ import {
     ChevronsUpDown,
     CreditCard,
     LogOut,
-    Sparkles,
+    Home,
+    HeartHandshake,
+    Settings,
   } from "lucide-react"
   
   import {
@@ -27,11 +29,26 @@ import {
     SidebarMenuItem,
     useSidebar,
   } from './ui/sidebar'
+  import { useLanguage } from '../hooks/useLanguage'
+  import { useAuth } from '../contexts/AuthContext'
+  import { useNavigate } from 'react-router-dom'
   
   export function NavUser({
     user,
   }) {
     const { isMobile } = useSidebar()
+    const { t } = useLanguage()
+    const { logout } = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+      logout()
+      navigate('/')
+    }
+
+    const handleNavigation = (path) => {
+      navigate(path)
+    }
   
     return (
         <SidebarMenu>
@@ -44,7 +61,9 @@ import {
               >
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">ص.م</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user.name?.charAt(0)?.toUpperCase() || 'A'}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -63,7 +82,9 @@ import {
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">ص.م</AvatarFallback>
+                    <AvatarFallback className="rounded-lg">
+                      {user.name?.charAt(0)?.toUpperCase() || 'A'}
+                    </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-semibold">{user.name}</span>
@@ -73,30 +94,30 @@ import {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Sparkles />
-                  الترقية إلى النسخة الاحترافية
+                <DropdownMenuItem onClick={() => handleNavigation('/')}>
+                  <Home />
+                  {t('navigation.home')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleNavigation('/create-campaign')}>
+                  <HeartHandshake />
+                  {t('navigation.createCampaign')}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => handleNavigation('/dashboard')}>
+                  <BadgeCheck />
+                  {t('navigation.dashboard')}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem>
-                  <BadgeCheck />
-                  الحساب
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <CreditCard />
-                  الفواتير
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Bell />
-                  الإشعارات
+                  <Settings />
+                  {t('common.settings')}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
                 <LogOut />
-                تسجيل الخروج
+                {t('auth.logout')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

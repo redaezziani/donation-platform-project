@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 import enum
 
 from app.db.database import Base
+from app.db.models.association import campaign_categories
 
 class CampaignStatus(str, enum.Enum):
     DRAFT = "draft"
@@ -33,6 +34,7 @@ class Campaign(Base):
     # Relationships
     creator = relationship("User", backref="campaigns")
     donations = relationship("Donation", back_populates="campaign")
+    categories = relationship("Category", secondary=campaign_categories, back_populates="campaigns")
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
