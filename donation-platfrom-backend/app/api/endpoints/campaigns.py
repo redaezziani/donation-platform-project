@@ -297,6 +297,35 @@ async def read_public_campaigns_paginated(
         pagination=pagination
     )
 
+@router.get("/admin/paginated", response_model=PaginatedCampaignsResponse)
+async def read_admin_campaigns_paginated(
+    page: int = Query(1, ge=1, description="Page number (1-based)"),
+    page_size: int = Query(10, ge=1, le=100, description="Number of items per page"),
+    status: Optional[CampaignStatus] = Query(None, description="Filter by campaign status"),
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru). If not provided, shows all languages"),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Admin endpoint to retrieve all campaigns with proper pagination metadata.
+    Shows campaigns in ALL languages by default unless lang parameter is specified.
+    This endpoint requires authentication and admin privileges.
+    """
+    # Check if user is admin
+    if not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin access required"
+        )
+    
+    # Note: We pass lang=None by default to show all languages for admin
+    campaigns, pagination = get_campaigns_paginated(db, page, page_size, status, lang)
+    
+    return PaginatedCampaignsResponse(
+        items=campaigns,
+        pagination=pagination
+    )
+
 @router.get("/{campaign_id}", response_model=CampaignDetailResponse)
 async def read_campaign(
     campaign_id: int,

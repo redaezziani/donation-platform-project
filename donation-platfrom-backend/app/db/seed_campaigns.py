@@ -4,25 +4,26 @@ from sqlalchemy.exc import NoResultFound
 from datetime import datetime, timedelta
 from app.auth.password import get_password_hash
 
+
 def get_or_create_admin_user(db):
     """Create or get an admin user with properly hashed password"""
     admin = db.query(User).filter_by(email="admin@donation.com").first()
     if not admin:
-        # Create admin with hashed password
         admin = User(
             email="admin@donation.com",
             username="admin",
-            hashed_password=get_password_hash("admin123"),  # Password is hashed securely
+            hashed_password=get_password_hash("admin123"),
             full_name="Admin User",
-            is_admin=True  # Set admin privileges
+            is_admin=True
         )
         db.add(admin)
         db.commit()
         db.refresh(admin)
-        print("Admin user created successfully with email: admin@donation.com and password: admin123")
+        print("Admin user created successfully.")
     else:
-        print("Admin user already exists")
+        print("Admin user already exists.")
     return admin
+
 
 def get_or_create_default_user(db):
     user = db.query(User).filter_by(email="demo@donation.com").first()
@@ -30,7 +31,7 @@ def get_or_create_default_user(db):
         user = User(
             email="demo@donation.com",
             username="demo_user",
-            hashed_password=get_password_hash("demo123"),  # Updated to use proper hashing
+            hashed_password=get_password_hash("demo123"),
             full_name="Demo User"
         )
         db.add(user)
@@ -38,271 +39,234 @@ def get_or_create_default_user(db):
         db.refresh(user)
     return user
 
-def get_campaign_content(lang):
-    """Get campaign content based on language"""
+def get_water_campaign_content(lang):
     content = {
-        'ar': {
-            'title': 'قوة العلم: حملة دعم البحث العلمي والتعليم',
-            'description': 'حملة لدعم البحث العلمي والتعليم في المجتمعات المحرومة، بهدف نشر المعرفة وتطوير القدرات العلمية للأجيال القادمة. نؤمن بأن العلم هو أساس التقدم والازدهار.',
-            'markdown': '''# 🔬 قوة العلم: بناء المستقبل من خلال المعرفة
-
-العلم هو القوة الحقيقية التي تحرك العالم نحو التقدم والازدهار. في عصر التكنولوجيا والابتكار، نحتاج إلى استثمار أكبر في البحث العلمي والتعليم لضمان مستقبل أفضل للأجيال القادمة.
-
----
-
-## 🎯 أهداف الحملة:
-
-### 🧪 1. دعم البحث العلمي
-- تمويل مشاريع البحث العلمي في الجامعات والمراكز البحثية
-- توفير الأجهزة والمعدات المخبرية المتطورة
-- دعم الباحثين الشباب والمبتكرين
-
-### 📚 2. تطوير التعليم العلمي
-- إنشاء مختبرات علمية في المدارس
-- تدريب المعلمين على أحدث طرق التدريس العلمي
-- توفير المناهج والكتب العلمية المتطورة
-
-### 💡 3. نشر الثقافة العلمية
-- تنظيم ورش عمل ومحاضرات عامة
-- إقامة معارض علمية تفاعلية
-- دعم برامج التلفزيون والإذاعة العلمية
-
-### 🌍 4. حل المشاكل المجتمعية
-- البحث في حلول للمشاكل البيئية
-- تطوير تقنيات الطاقة المتجددة
-- إيجاد حلول طبية للأمراض المستعصية
-
----
-
-## 💫 لماذا العلم مهم؟
-
-العلم ليس مجرد معرفة نظرية، بل هو أداة التغيير الحقيقي في حياة البشر. من خلال العلم:
-- نطور اللقاحات والأدوية
-- نبتكر التقنيات التي تسهل حياتنا
-- نفهم الكون والطبيعة من حولنا
-- نحل المشاكل المعقدة التي تواجه البشرية
-
-🧡 **معًا نبني مستقبلاً علمياً مشرقاً للجميع.**
-'''
-        },
         'en': {
-            'title': 'The Power of Science: Supporting Scientific Research and Education',
-            'description': 'A campaign to support scientific research and education in underserved communities, aiming to spread knowledge and develop scientific capabilities for future generations. We believe that science is the foundation of progress and prosperity.',
-            'markdown': '''# 🔬 The Power of Science: Building the Future Through Knowledge
+            'title': 'Water for Every Life: Clean Water for Remote Communities',
+            'description': 'A campaign to bring clean, safe drinking water to remote and underserved communities where access is limited or nonexistent.',
+            'markdown': '''# 💧 Water for Every Life: Clean Water for Remote Communities
 
-Science is the true force that drives the world toward progress and prosperity. In an age of technology and innovation, we need greater investment in scientific research and education to ensure a better future for generations to come.
+Every human being deserves access to clean water. In remote areas, lack of water leads to health crises, missed education, and poverty. This campaign brings life-changing water solutions to those who need it most.
 
 ---
 
 ## 🎯 Campaign Goals:
 
-### 🧪 1. Supporting Scientific Research
-- Funding research projects in universities and research centers
-- Providing advanced laboratory equipment and instruments
-- Supporting young researchers and innovators
+### 🚰 1. Build Sustainable Water Sources
+- Drill wells in drought-prone villages
+- Install rainwater harvesting systems
+- Maintain existing water infrastructure
 
-### 📚 2. Developing Science Education
-- Establishing science laboratories in schools
-- Training teachers in modern scientific teaching methods
-- Providing advanced scientific curricula and textbooks
+### 🧼 2. Promote Hygiene and Health
+- Provide sanitation kits to families
+- Conduct hygiene education in schools
+- Reduce water-borne diseases
 
-### 💡 3. Promoting Scientific Culture
-- Organizing workshops and public lectures
-- Hosting interactive science exhibitions
-- Supporting scientific TV and radio programs
-
-### 🌍 4. Solving Community Problems
-- Researching solutions to environmental problems
-- Developing renewable energy technologies
-- Finding medical solutions for incurable diseases
+### 👩‍👩‍👧‍👦 3. Empower Local Communities
+- Train locals in water maintenance
+- Employ residents in water projects
+- Create water committees for sustainability
 
 ---
 
-## 💫 Why Science Matters?
+## 💫 Why Water?
 
-Science is not just theoretical knowledge, but a tool for real change in human life. Through science:
-- We develop vaccines and medicines
-- We innovate technologies that make our lives easier
-- We understand the universe and nature around us
-- We solve complex problems facing humanity
+Clean water transforms lives:
+- Reduces child mortality
+- Frees up time for women and children
+- Improves education and economic outcomes
 
-🧡 **Together we build a bright scientific future for everyone.**
+🧡 **Your donation helps turn water scarcity into water security.**
 '''
         },
         'fr': {
-            'title': 'Le Pouvoir de la Science: Soutenir la Recherche Scientifique et l\'Éducation',
-            'description': 'Une campagne pour soutenir la recherche scientifique et l\'éducation dans les communautés défavorisées, visant à diffuser les connaissances et développer les capacités scientifiques pour les générations futures. Nous croyons que la science est le fondement du progrès et de la prospérité.',
-            'markdown': '''# 🔬 Le Pouvoir de la Science: Construire l'Avenir par la Connaissance
+            'title': 'De l\'Eau pour Tous: Accès à l\'Eau Potable dans les Régions Éloignées',
+            'description': 'Une campagne pour fournir de l\'eau potable et propre aux communautés éloignées et mal desservies.',
+            'markdown': '''# 💧 De l'Eau pour Tous: Eau Potable pour les Communautés Éloignées
 
-La science est la véritable force qui pousse le monde vers le progrès et la prospérité. À l'ère de la technologie et de l'innovation, nous avons besoin d'investissements plus importants dans la recherche scientifique et l'éducation pour assurer un avenir meilleur aux générations futures.
+Chaque être humain mérite un accès à l'eau propre. Le manque d'eau dans les zones isolées entraîne des crises sanitaires et freine le développement. Cette campagne apporte des solutions durables.
 
 ---
 
 ## 🎯 Objectifs de la Campagne:
 
-### 🧪 1. Soutenir la Recherche Scientifique
-- Financer des projets de recherche dans les universités et centres de recherche
-- Fournir des équipements et instruments de laboratoire avancés
-- Soutenir les jeunes chercheurs et innovateurs
+### 🚰 1. Construire des Sources Durables
+- Forer des puits dans les villages secs
+- Installer des systèmes de récupération des eaux de pluie
+- Réparer les infrastructures d’eau existantes
 
-### 📚 2. Développer l'Éducation Scientifique
-- Établir des laboratoires scientifiques dans les écoles
-- Former les enseignants aux méthodes d'enseignement scientifique modernes  
-- Fournir des programmes et manuels scientifiques avancés
+### 🧼 2. Promouvoir l’Hygiène
+- Fournir des kits sanitaires
+- Éduquer les enfants à l’hygiène
+- Réduire les maladies liées à l’eau
 
-### 💡 3. Promouvoir la Culture Scientifique
-- Organiser des ateliers et conférences publiques
-- Accueillir des expositions scientifiques interactives
-- Soutenir les programmes scientifiques TV et radio
-
-### 🌍 4. Résoudre les Problèmes Communautaires
-- Rechercher des solutions aux problèmes environnementaux
-- Développer des technologies d'énergie renouvelable
-- Trouver des solutions médicales pour les maladies incurables
+### 👩‍👩‍👧‍👦 3. Autonomiser les Communautés
+- Former les habitants à l’entretien
+- Créer des emplois dans les projets d’eau
+- Mettre en place des comités de gestion
 
 ---
 
-## 💫 Pourquoi la Science Importe?
+## 💫 Pourquoi l'Eau?
 
-La science n'est pas seulement une connaissance théorique, mais un outil de changement réel dans la vie humaine. Grâce à la science:
-- Nous développons des vaccins et des médicaments
-- Nous innovons des technologies qui facilitent notre vie
-- Nous comprenons l'univers et la nature qui nous entourent
-- Nous résolvons des problèmes complexes auxquels l'humanité fait face
+L'eau propre change la vie :
+- Réduction de la mortalité infantile
+- Libération du temps des femmes et enfants
+- Meilleure santé et éducation
 
-🧡 **Ensemble, nous construisons un avenir scientifique brillant pour tous.**
+🧡 **Votre soutien transforme la soif en espoir.**
 '''
         },
-        'ru': {
-            'title': 'Сила Науки: Поддержка Научных Исследований и Образования',
-            'description': 'Кампания по поддержке научных исследований и образования в малообеспеченных сообществах, направленная на распространение знаний и развитие научных способностей для будущих поколений. Мы верим, что наука - это основа прогресса и процветания.',
-            'markdown': '''# 🔬 Сила Науки: Строим Будущее Через Знания
+        'ar': {
+            'title': 'الماء لكل إنسان: توفير مياه نظيفة للمجتمعات النائية',
+            'description': 'حملة تهدف إلى توفير مياه شرب نظيفة وآمنة للمجتمعات النائية والمحرومة.',
+            'markdown': '''# 💧 الماء لكل إنسان: مياه نظيفة للمجتمعات النائية
 
-Наука - это истинная сила, которая движет мир к прогрессу и процветанию. В эпоху технологий и инноваций нам нужны большие инвестиции в научные исследования и образование, чтобы обеспечить лучшее будущее для грядущих поколений.
-
----
-
-## 🎯 Цели Кампании:
-
-### 🧪 1. Поддержка Научных Исследований
-- Финансирование исследовательских проектов в университетах и научных центрах
-- Предоставление передового лабораторного оборудования и инструментов
-- Поддержка молодых исследователей и новаторов
-
-### 📚 2. Развитие Научного Образования
-- Создание научных лабораторий в школах
-- Обучение учителей современным методам научного преподавания
-- Предоставление передовых научных программ и учебников
-
-### 💡 3. Продвижение Научной Культуры
-- Организация семинаров и публичных лекций
-- Проведение интерактивных научных выставок
-- Поддержка научных телевизионных и радиопрограмм
-
-### 🌍 4. Решение Общественных Проблем
-- Исследование решений экологических проблем
-- Разработка технологий возобновляемой энергии
-- Поиск медицинских решений для неизлечимых болезней
+الحصول على مياه نظيفة حق أساسي لكل إنسان. في المناطق البعيدة، يعاني السكان من نقص حاد في المياه. تسعى هذه الحملة إلى توفير حلول دائمة وآمنة للمياه.
 
 ---
 
-## 💫 Почему Наука Важна?
+## 🎯 أهداف الحملة:
 
-Наука - это не просто теоретические знания, а инструмент реальных изменений в человеческой жизни. Благодаря науке:
-- Мы разрабатываем вакцины и лекарства
-- Мы создаем технологии, которые облегчают нашу жизнь
-- Мы понимаем вселенную и природу вокруг нас
-- Мы решаем сложные проблемы, стоящие перед человечеством
+### 🚰 1. بناء مصادر مياه مستدامة
+- حفر آبار في القرى المتضررة من الجفاف
+- تركيب أنظمة حصاد مياه الأمطار
+- صيانة البنية التحتية للمياه
 
-🧡 **Вместе мы строим светлое научное будущее для всех.**
+### 🧼 2. تعزيز الصحة والنظافة
+- توزيع أدوات النظافة
+- تعليم الأطفال أسس النظافة الشخصية
+- تقليل الأمراض المنقولة بالماء
+
+### 👩‍👩‍👧‍👦 3. تمكين المجتمعات المحلية
+- تدريب السكان على صيانة المشاريع
+- توفير وظائف ضمن المشاريع
+- تشكيل لجان لإدارة الموارد المائية
+
+---
+
+## 💫 لماذا الماء؟
+
+الماء النظيف ينقذ الأرواح ويغير المستقبل:
+- تقليل وفيات الأطفال
+- تحسين التعليم والصحة
+- تمكين المرأة والأطفال
+
+🧡 **ساهم معنا في جعل الماء حقًا للجميع.**
 '''
         },
         'es': {
-            'title': 'El Poder de la Ciencia: Apoyando la Investigación Científica y la Educación',
-            'description': 'Una campaña para apoyar la investigación científica y la educación en comunidades desatendidas, con el objetivo de difundir el conocimiento y desarrollar capacidades científicas para las generaciones futuras. Creemos que la ciencia es la base del progreso y la prosperidad.',
-            'markdown': '''# 🔬 El Poder de la Ciencia: Construyendo el Futuro a Través del Conocimiento
+            'title': 'Agua para Todos: Agua Limpia para Comunidades Remotas',
+            'description': 'Una campaña para proporcionar agua potable limpia y segura a comunidades remotas y vulnerables.',
+            'markdown': '''# 💧 Agua para Todos: Agua Limpia para Comunidades Remotas
 
-La ciencia es la verdadera fuerza que impulsa al mundo hacia el progreso y la prosperidad. En una era de tecnología e innovación, necesitamos mayor inversión en investigación científica y educación para asegurar un mejor futuro para las generaciones venideras.
+El acceso al agua es un derecho. En muchas regiones alejadas, la falta de agua impacta gravemente la salud y el desarrollo. Nuestra campaña busca llevar soluciones sostenibles a quienes más lo necesitan.
 
 ---
 
 ## 🎯 Objetivos de la Campaña:
 
-### 🧪 1. Apoyar la Investigación Científica
-- Financiar proyectos de investigación en universidades y centros de investigación
-- Proporcionar equipos e instrumentos de laboratorio avanzados
-- Apoyar a jóvenes investigadores e innovadores
+### 🚰 1. Crear Fuentes de Agua Sostenibles
+- Perforación de pozos
+- Recolección de aguas de lluvia
+- Mantenimiento de infraestructuras
 
-### 📚 2. Desarrollar la Educación Científica
-- Establecer laboratorios científicos en escuelas
-- Capacitar a maestros en métodos modernos de enseñanza científica
-- Proporcionar currículos y libros de texto científicos avanzados
+### 🧼 2. Mejorar la Higiene y la Salud
+- Entrega de kits de higiene
+- Educación sobre limpieza en escuelas
+- Reducción de enfermedades
 
-### 💡 3. Promover la Cultura Científica
-- Organizar talleres y conferencias públicas
-- Realizar exposiciones científicas interactivas
-- Apoyar programas científicos de TV y radio
-
-### 🌍 4. Resolver Problemas Comunitarios
-- Investigar soluciones a problemas ambientales
-- Desarrollar tecnologías de energía renovable
-- Encontrar soluciones médicas para enfermedades incurables
+### 👩‍👩‍👧‍👦 3. Fortalecer Comunidades
+- Capacitación local en mantenimiento
+- Generación de empleo en proyectos
+- Comités de agua comunitarios
 
 ---
 
-## 💫 ¿Por Qué Importa la Ciencia?
+## 💫 ¿Por Qué Agua?
 
-La ciencia no es solo conocimiento teórico, sino una herramienta para el cambio real en la vida humana. A través de la ciencia:
-- Desarrollamos vacunas y medicamentos
-- Innovamos tecnologías que facilitan nuestras vidas
-- Entendemos el universo y la naturaleza que nos rodea
-- Resolvemos problemas complejos que enfrenta la humanidad
+El agua cambia todo:
+- Reduce enfermedades
+- Aumenta la asistencia escolar
+- Libera tiempo para las mujeres
 
-🧡 **Juntos construimos un futuro científico brillante para todos.**
+🧡 **Con tu ayuda, el agua es vida.**
+'''
+        },
+        'ru': {
+            'title': 'Вода для Каждого: Чистая Вода для Отдалённых Сообществ',
+            'description': 'Кампания по обеспечению чистой питьевой воды в удалённых и бедных регионах.',
+            'markdown': '''# 💧 Вода для Каждого: Чистая Вода для Отдалённых Сообществ
+
+Чистая вода — это жизнь. В удалённых районах её отсутствие приводит к болезням и страданиям. Наша цель — обеспечить доступ к безопасной воде для всех.
+
+---
+
+## 🎯 Цели Кампании:
+
+### 🚰 1. Устойчивые Источники Воды
+- Бурение колодцев
+- Сбор дождевой воды
+- Ремонт водных систем
+
+### 🧼 2. Гигиена и Здоровье
+- Гигиенические наборы
+- Обучение в школах
+- Снижение заболеваний
+
+### 👩‍👩‍👧‍👦 3. Поддержка Местных
+- Обучение ремонту
+- Трудоустройство
+- Комитеты по управлению водой
+
+---
+
+## 💫 Почему Это Важно?
+
+Чистая вода спасает жизни:
+- Меньше болезней
+- Лучшая учёба и работа
+- Женщины получают больше свободы
+
+🧡 **С вашей помощью вода становится доступной для всех.**
 '''
         }
     }
     return content[lang]
 
+
 def seed_campaigns():
     db = SessionLocal()
     user = get_or_create_default_user(db)
-    admin = get_or_create_admin_user(db)  # Create admin user
+    admin = get_or_create_admin_user(db)
 
-    # Clear existing data - delete donations first due to foreign key constraints
-    from app.db.models.donation import Donation
-    db.query(Donation).delete()
-    db.query(Campaign).delete()
-    db.commit()
-
-    # Create one campaign in multiple languages
-    languages = ['ar', 'en', 'fr', 'ru', 'es']
+    languages = ['en', 'fr', 'ar', 'es', 'ru']
     campaigns = []
-    
+
     for lang in languages:
-        content = get_campaign_content(lang)
+        content = get_water_campaign_content(lang)
         campaign = Campaign(
             title=content['title'],
             description=content['description'],
             markdown_text=content['markdown'],
-            target_amount=50000,  # Higher target for science research
-            current_amount=8500,   # Some initial donations
-            start_date=datetime.utcnow() - timedelta(days=2),
-            end_date=datetime.utcnow() + timedelta(days=60),  # 60 days campaign
+            target_amount=30000,
+            current_amount=0,
+            start_date=datetime.utcnow(),
+            end_date=datetime.utcnow() + timedelta(days=45),
             status=CampaignStatus.ACTIVE,
-            image_path=f"uploads/campaigns/science-power-{lang}.jpg",
+            image_path=f"uploads/campaigns/water_{lang}.jpg",
             lang=lang,
             creator_id=user.id
         )
         campaigns.append(campaign)
 
-    # Save all campaigns
     for campaign in campaigns:
         db.add(campaign)
-    
+
     db.commit()
-    print(f"Seeded 1 science campaign in {len(languages)} languages: {', '.join(languages)}")
+    print(f"Seeded {len(campaigns)} campaigns successfully.")
     db.close()
+
 
 if __name__ == "__main__":
     seed_campaigns()
