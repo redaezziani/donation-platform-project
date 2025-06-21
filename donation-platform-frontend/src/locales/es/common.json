@@ -60,7 +60,25 @@
     "donateToThis": "Donar a esta Campaña",
     "shareProject": "Compartir Proyecto",
     "viewProject": "Ver Proyecto",
-    "deleteProject": "Eliminar Proyecto"
+    "deleteProject": "Eliminar Proyecto",
+    "entity": "la campaña",
+    "creator": "Creador",
+    "language": "Idioma",
+    "raised": "Recaudado",
+    "goal": "Meta",
+    "featured": "Destacada",
+    "createdAt": "Fecha de Creación",
+    "searchPlaceholder": "Buscar campaña...",
+    "loading": "Cargando campañas...",
+    "noCampaigns": "No hay campañas",
+    "status": {
+      "label": "Estado",
+      "active": "Activa",
+      "pending": "En Revisión",
+      "draft": "Borrador",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    }
   },
   "donation": {
     "donate": "Donar",
@@ -76,12 +94,13 @@
     "cardInfo": "Información de la Tarjeta de Crédito",
     "processing": "Procesando...",
     "donateAgain": "Donar de Nuevo",
-    "successMessage": "Tu donación ha sido recibida exitosamente y será agregada a la campaña",
-    "totalDonations": "Total de Donaciones",
+    "successMessage": "Su donación ha sido recibida exitosamente y será agregada a la campaña",
+    "totalDonations": "Donaciones Totales",
     "averageDonation": "Donación Promedio",
     "completedDonations": "Donaciones Completadas",
     "pendingDonations": "Donaciones Pendientes",
-    "failedDonations": "Donaciones Fallidas"
+    "failedDonations": "Donaciones Fallidas",
+    "successThankYou": "¡Gracias! Su donación de ${{amount}} ha sido recibida exitosamente"
   },
   "admin": {
     "dashboard": "Panel de Control",
@@ -114,7 +133,8 @@
     "admin": "Administrador",
     "user": "Usuario",
     "addUser": "Agregar Usuario",
-    "noPendingCampaigns": "No hay campañas pendientes de aprobación"
+    "noPendingCampaigns": "No hay campañas pendientes de aprobación",
+    "totalDonors": "Donantes Totales"
   },
   "common": {
     "loading": "Cargando...",
@@ -152,7 +172,16 @@
     "yes": "Sí",
     "no": "No",
     "optional": "Opcional",
-    "required": "Requerido"
+    "required": "Requerido",
+    "id": "#",
+    "view": "Ver",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "actions": "Acciones",
+    "notSpecified": "No especificado",
+    "noSearchResults": "No se encontraron resultados",
+    "allLanguages": "Todos los idiomas",
+    "errorLoadingData": "Error al cargar los datos"
   },
   "footer": {
     "quickLinks": "Enlaces Rápidos",
@@ -231,6 +260,9 @@
     "allCampaigns": "Todas las Campañas",
     "campaignsDescription": "Explora las campañas disponibles y dona para ayudar a lograr sus objetivos.",
     "noCampaigns": "No hay campañas disponibles actualmente.",
+    "featuredCampaigns": "Campañas Destacadas",
+    "featuredCampaignsDescription": "Explora las campañas destacadas cuidadosamente seleccionadas para brindar las mejores oportunidades de donación y asistencia.",
+    "noFeaturedCampaigns": "No hay campañas destacadas disponibles actualmente.",
     "stats": {
       "activeDonors": "Total de Donantes Activos",
       "totalDonations": "Cantidad Total de Donaciones Recibidas",
@@ -433,5 +465,12 @@
     "foodRelief": "Ayuda Alimentaria",
     "emergency": "Emergencia",
     "other": "Otros"
+  },
+  "language": {
+    "arabic": "العربية",
+    "english": "English",
+    "french": "Français",
+    "spanish": "Español",
+    "russian": "Русский"
   }
 }

@@ -67,7 +67,25 @@
     "selectEndDate": "Sélectionner la date de fin",
     "startDateDescription": "Date de début de la campagne (ne peut pas être dans le passé)",
     "endDateDescription": "Date de fin de la campagne (doit être après la date de début)",
-    "imageDescription": "Le rapport d'aspect 16:9 est idéal pour l'affichage"
+    "imageDescription": "Le rapport d'aspect 16:9 est idéal pour l'affichage",
+    "entity": "la campagne",
+    "creator": "Créateur",
+    "language": "Langue",
+    "raised": "Collecté",
+    "goal": "Objectif",
+    "featured": "Vedette",
+    "createdAt": "Date de Création",
+    "searchPlaceholder": "Rechercher une campagne...",
+    "loading": "Chargement des campagnes...",
+    "noCampaigns": "Aucune campagne",
+    "status": {
+      "label": "Statut",
+      "active": "Active",
+      "pending": "En Cours d'Examen",
+      "draft": "Brouillon",
+      "completed": "Terminée",
+      "cancelled": "Annulée"
+    }
   },
   "donation": {
     "donate": "Faire un Don",
@@ -84,6 +102,7 @@
     "processing": "Traitement en cours...",
     "donateAgain": "Donner à Nouveau",
     "successMessage": "Votre don a été reçu avec succès et sera ajouté à la campagne",
+    "successThankYou": "Merci ! Votre don de ${{amount}} a été reçu avec succès",
     "totalDonations": "Total des Dons",
     "averageDonation": "Don Moyen",
     "completedDonations": "Dons Complétés",
@@ -121,7 +140,8 @@
     "admin": "Administrateur",
     "user": "Utilisateur",
     "addUser": "Ajouter un Utilisateur",
-    "noPendingCampaigns": "Aucune campagne en attente d'approbation"
+    "noPendingCampaigns": "Aucune campagne en attente d'approbation",
+    "totalDonors": "Donateurs Totaux"
   },
   "common": {
     "loading": "Chargement...",
@@ -159,7 +179,16 @@
     "yes": "Oui",
     "no": "Non",
     "optional": "Optionnel",
-    "required": "Obligatoire"
+    "required": "Obligatoire",
+    "id": "#",
+    "view": "Voir",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "actions": "Actions",
+    "notSpecified": "Non spécifié",
+    "noSearchResults": "Aucun résultat trouvé",
+    "allLanguages": "Toutes les langues",
+    "errorLoadingData": "Erreur lors du chargement des données"
   },
   "footer": {
     "quickLinks": "Liens Rapides",
@@ -238,6 +267,9 @@
     "allCampaigns": "Toutes les Campagnes",
     "campaignsDescription": "Parcourez les campagnes disponibles et faites un don pour aider à atteindre leurs objectifs.",
     "noCampaigns": "Aucune campagne n'est actuellement disponible.",
+    "featuredCampaigns": "Campagnes Vedettes",
+    "featuredCampaignsDescription": "Parcourez les campagnes vedettes soigneusement sélectionnées pour offrir les meilleures opportunités de don et d'assistance.",
+    "noFeaturedCampaigns": "Aucune campagne vedette n'est actuellement disponible.",
     "stats": {
       "activeDonors": "Total des Donateurs Actifs",
       "totalDonations": "Montant Total des Dons Reçus",
@@ -440,5 +472,12 @@
     "foodRelief": "Aide Alimentaire",
     "emergency": "Urgence",
     "other": "Autres"
+  },
+  "language": {
+    "arabic": "العربية",
+    "english": "English",
+    "french": "Français",
+    "spanish": "Español",
+    "russian": "Русский"
   }
 }

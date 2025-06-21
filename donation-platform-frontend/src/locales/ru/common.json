@@ -60,7 +60,25 @@
     "donateToThis": "Пожертвовать на эту Кампанию",
     "shareProject": "Поделиться Проектом",
     "viewProject": "Посмотреть Проект",
-    "deleteProject": "Удалить Проект"
+    "deleteProject": "Удалить Проект",
+    "entity": "кампанию",
+    "creator": "Создатель",
+    "language": "Язык",
+    "raised": "Собрано",
+    "goal": "Цель",
+    "featured": "Рекомендуемая",
+    "createdAt": "Дата Создания",
+    "searchPlaceholder": "Поиск кампании...",
+    "loading": "Загрузка кампаний...",
+    "noCampaigns": "Нет кампаний",
+    "status": {
+      "label": "Статус",
+      "active": "Активная",
+      "pending": "На Рассмотрении",
+      "draft": "Черновик",
+      "completed": "Завершенная",
+      "cancelled": "Отмененная"
+    }
   },
   "donation": {
     "donate": "Пожертвовать",
@@ -81,7 +99,8 @@
     "averageDonation": "Среднее Пожертвование",
     "completedDonations": "Завершенные Пожертвования",
     "pendingDonations": "Ожидающие Пожертвования",
-    "failedDonations": "Неудачные Пожертвования"
+    "failedDonations": "Неудачные Пожертвования",
+    "successThankYou": "Спасибо! Ваше пожертвование в размере ${{amount}} было успешно получено"
   },
   "admin": {
     "dashboard": "Панель Управления",
@@ -114,7 +133,8 @@
     "admin": "Администратор",
     "user": "Пользователь",
     "addUser": "Добавить Пользователя",
-    "noPendingCampaigns": "Нет кампаний, ожидающих одобрения"
+    "noPendingCampaigns": "Нет кампаний, ожидающих одобрения",
+    "totalDonors": "Всего Жертвователей"
   },
   "common": {
     "loading": "Загрузка...",
@@ -152,7 +172,16 @@
     "yes": "Да",
     "no": "Нет",
     "optional": "Необязательно",
-    "required": "Обязательно"
+    "required": "Обязательно",
+    "id": "#",
+    "view": "Просмотр",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "actions": "Действия",
+    "notSpecified": "Не указано",
+    "noSearchResults": "Результаты поиска не найдены",
+    "allLanguages": "Все языки",
+    "errorLoadingData": "Ошибка загрузки данных"
   },
   "footer": {
     "quickLinks": "Быстрые Ссылки",
@@ -231,6 +260,9 @@
     "allCampaigns": "Все Кампании",
     "campaignsDescription": "Просмотрите доступные кампании и пожертвуйте, чтобы помочь достичь их целей.",
     "noCampaigns": "В настоящее время нет доступных кампаний.",
+    "featuredCampaigns": "Рекомендуемые Кампании",
+    "featuredCampaignsDescription": "Просмотрите рекомендуемые кампании, тщательно отобранные для предоставления лучших возможностей для пожертвований и помощи.",
+    "noFeaturedCampaigns": "В настоящее время нет рекомендуемых кампаний.",
     "stats": {
       "activeDonors": "Общее Количество Активных Жертвователей",
       "totalDonations": "Общая Сумма Полученных Пожертвований",
@@ -433,5 +465,12 @@
     "foodRelief": "Продовольственная Помощь",
     "emergency": "Экстренные Случаи",
     "other": "Другое"
+  },
+  "language": {
+    "arabic": "العربية",
+    "english": "English",
+    "french": "Français",
+    "spanish": "Español",
+    "russian": "Русский"
   }
 }

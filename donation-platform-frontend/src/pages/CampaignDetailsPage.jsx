@@ -193,6 +193,8 @@ const CampaignDetailsPage = () => {
   return (
     <div className="relative">
       <div className="w-full flex max-h-[80vh] overflow-hidden relative">
+        <span className="z-[30] absolute inset-0 bg-black/50 flex items-center justify-center"/>
+
         <article className="z-[30] absolute inset-0 p-2 md:p-10 w-full h-full flex flex-col justify-end items-start">
           <h1 className=" text-lg md:text-6xl font-AlRaiMediaBold font-bold text-primary mb-4">
             {campaign.title}

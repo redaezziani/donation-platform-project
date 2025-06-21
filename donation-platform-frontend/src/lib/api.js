@@ -168,6 +168,13 @@ export const campaignsAPI = {
     return response.data;
   },
 
+  // Get featured campaigns (first 3 active campaigns)
+  getFeaturedCampaigns: async () => {
+    const url = createUrlWithLang('/api/v1/campaigns/featured');
+    const response = await api.get(url);
+    return response.data;
+  },
+
   // Delete campaign
   deleteCampaign: async (id) => {
     await api.delete(`/api/v1/campaigns/${id}`);
@@ -209,20 +216,56 @@ export const paymentAPI = {
 
 // Admin API functions
 export const adminAPI = {
-  // Admin Users Management
-  getAllUsers: async (page = 1, pageSize = 10) => {
+  // Admin Users Management - Updated to work with existing schema
+  getAllUsers: async (page = 1, pageSize = 10, status = null, role = null) => {
     const params = { page, page_size: pageSize };
-    const url = createUrlWithLang('/api/v1/users', params);
+    // Remove status filter since is_suspended doesn't exist yet
+    if (role && role !== 'all') params.role = role;
+    
+    const url = `/api/v1/users?${new URLSearchParams(params)}`;
     const response = await api.get(url);
     return response.data;
   },
 
+  // Update user status (admin only) - simplified for existing schema
+  updateUserStatus: async (id, status) => {
+    // For now, we can only toggle is_active since is_suspended doesn't exist
+    const isActive = status === 'active';
+    const response = await api.put(`/api/v1/users/${id}/status`, { status: isActive ? 'active' : 'inactive' });
+    return response.data;
+  },
+
+  // Get user statistics for admin - Updated to work with existing schema
+  getUserStats: async () => {
+    try {
+      const response = await api.get('/api/v1/users?page_size=1000'); // Get all users
+      const users = response.data.items || [];
+      
+      return {
+        totalUsers: users.length,
+        activeUsers: users.filter(u => u.is_active === true).length,
+        suspendedUsers: users.filter(u => u.is_active === false).length, // Use inactive as suspended
+        adminUsers: users.filter(u => u.is_admin === true).length,
+      };
+    } catch (error) {
+      console.error('Error fetching user stats:', error);
+      return {
+        totalUsers: 0,
+        activeUsers: 0,
+        suspendedUsers: 0,
+        adminUsers: 0,
+      };
+    }
+  },
+
   // Admin Campaigns Management
-  getAllCampaigns: async (page = 1, pageSize = 10, status = null) => {
+  getAllCampaigns: async (page = 1, pageSize = 10, status = null, lang = null) => {
     const params = { page, page_size: pageSize };
     if (status && status !== 'all') params.status = status;
+    if (lang && lang !== 'all') params.lang = lang;
     
-    const url = createUrlWithLang('/api/v1/campaigns/paginated', params);
+    // Use admin-specific endpoint that shows all languages by default
+    const url = `/api/v1/campaigns/admin/paginated?${new URLSearchParams(params)}`;
     const response = await api.get(url);
     return response.data;
   },

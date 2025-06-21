@@ -72,7 +72,25 @@
     "outOf": "من أصل",
     "target": "الهدف",
     "quickStats": "إحصائيات سريعة",
-    "general": "عام"
+    "general": "عام",
+    "entity": "الحملة",
+    "creator": "المنشئ",
+    "language": "اللغة",
+    "raised": "جُمع",
+    "goal": "الهدف",
+    "featured": "مميزة",
+    "createdAt": "تاريخ الإنشاء",
+    "searchPlaceholder": "بحث عن حملة...",
+    "loading": "جاري تحميل الحملات...",
+    "noCampaigns": "لا توجد حملات",
+    "status": {
+      "label": "الحالة",
+      "active": "نشطة",
+      "pending": "قيد المراجعة",
+      "draft": "مسودة",
+      "completed": "مكتملة",
+      "cancelled": "ملغية"
+    }
   },
   "donation": {
     "donate": "تبرع",
@@ -94,7 +112,7 @@
     "completedDonations": "التبرعات المكتملة",
     "pendingDonations": "التبرعات المعلقة",
     "failedDonations": "التبرعات الفاشلة",
-    "successThankYou": "شكراً لك! تم استلام تبرعك بقيمة {{amount}} بنجاح"
+    "successThankYou": "شكراً لك! تم استلام تبرعك بقيمة ${{amount}} بنجاح"
   },
   "admin": {
     "dashboard": "لوحة التحكم",
@@ -127,7 +145,34 @@
     "admin": "مدير",
     "user": "مستخدم",
     "addUser": "إضافة مستخدم",
-    "noPendingCampaigns": "لا توجد حملات بانتظار الموافقة"
+    "noPendingCampaigns": "لا توجد حملات بانتظار الموافقة",
+    "totalDonors": "المتبرعون",
+    "pendingUsers": "المستخدمون المعلقون",
+    "adminUsers": "المديرين",
+    "role": {
+      "admin": "مدير",
+      "user": "مستخدم"
+    }
+  },
+  "user": {
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "username": "اسم المستخدم",
+    "fullName": "الاسم الكامل",
+    "entity": "المستخدم",
+    "role": "الدور",
+    "joinDate": "تاريخ الانضمام",
+    "campaigns": "الحملات",
+    "donations": "التبرعات",
+    "searchPlaceholder": "بحث عن مستخدم...",
+    "loading": "جاري تحميل المستخدمين...",
+    "noUsers": "لا توجد مستخدمين",
+    "status": {
+      "label": "الحالة",
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "suspended": "معلق"
+    }
   },
   "common": {
     "loading": "جاري التحميل...",
@@ -165,7 +210,16 @@
     "yes": "نعم",
     "no": "لا",
     "optional": "اختياري",
-    "required": "مطلوب"
+    "required": "مطلوب",
+    "id": "#",
+    "view": "عرض",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "actions": "إجراءات",
+    "notSpecified": "غير محدد",
+    "noSearchResults": "لا توجد نتائج للبحث",
+    "allLanguages": "كل اللغات",
+    "errorLoadingData": "حدث خطأ أثناء جلب البيانات"
   },
   "footer": {
     "quickLinks": "روابط سريعة",
@@ -250,6 +304,9 @@
     "allCampaigns": "جميع الحملات",
     "campaignsDescription": "استعرض الحملات المتاحة وتبرع للمساعدة في تحقيق أهدافها.",
     "noCampaigns": "لا توجد حملات متاحة حالياً.",
+    "featuredCampaigns": "الحملات المميزة",
+    "featuredCampaignsDescription": "استعرض الحملات المميزة التي تم اختيارها بعناية لتقديم أفضل الفرص للتبرع والمساعدة.",
+    "noFeaturedCampaigns": "لا توجد حملات مميزة متاحة حالياً.",
     "stats": {
       "activeDonors": "إجمالي عدد المتبرعين النشطين",
       "totalDonations": "المبلغ الإجمالي للتبرعات المستلمة",
@@ -452,5 +509,12 @@
     "foodRelief": "الإغاثة الغذائية",
     "emergency": "الطوارئ",
     "other": "أخرى"
+  },
+  "language": {
+    "arabic": "العربية",
+    "english": "English",
+    "french": "Français",
+    "spanish": "Español",
+    "russian": "Русский"
   }
 }

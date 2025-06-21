@@ -406,3 +406,16 @@ async def delete_campaign_endpoint(
     
     return None
 
+@router.get("/featured", response_model=List[CampaignResponse])
+async def read_featured_campaigns(
+    lang: Optional[str] = Query(None, description="Filter by language code (e.g., en, ar, fr, ru)"),
+    db: Session = Depends(get_db)
+):
+    """
+    Retrieve the first 3 active campaigns for featured display.
+    This endpoint returns campaigns that have been approved by admins.
+    """
+    # Get campaigns with pagination, limit to 3
+    campaigns, _ = get_campaigns_paginated(db, page=1, page_size=3, status=CampaignStatus.ACTIVE, lang=lang)
+    
+    return campaigns

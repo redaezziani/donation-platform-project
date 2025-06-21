@@ -20,11 +20,11 @@ const ArticalCard = ({ campaign }) => {
             <img
               src={getImageUrl(campaign.image_path)}
               alt={campaign.title}
-              className="w-full h-full saturate-0 object-cover"
+              className="w-full h-full rounded-lg  object-cover"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src =
-                  "https://images.pexels.com/photos/5838484/pexels-photo-5838484.jpeg?_gl=1*7xo5ta*_ga*MjAzNjY3NjE3MC4xNzQ5ODQzNjA4*_ga_8JE65Q40S6*czE3NDk4NDg3NTMkbzIkZzEkdDE3NDk4NTA2ODQkajU5JGwwJGgw";
+                  "https://csakenya.org/wp-content/uploads/Day-of-the-African-Child-scaled.jpg";
               }}
             />
           </div>

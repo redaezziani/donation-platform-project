@@ -72,7 +72,25 @@
     "outOf": "out of",
     "target": "Target",
     "quickStats": "Quick Stats",
-    "general": "General"
+    "general": "General",
+    "entity": "the campaign",
+    "creator": "Creator",
+    "language": "Language",
+    "raised": "Raised",
+    "goal": "Goal",
+    "featured": "Featured",
+    "createdAt": "Created At",
+    "searchPlaceholder": "Search for campaign...",
+    "loading": "Loading campaigns...",
+    "noCampaigns": "No campaigns",
+    "status": {
+      "label": "Status",
+      "active": "Active",
+      "pending": "Under Review",
+      "draft": "Draft",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
   },
   "donation": {
     "donate": "Donate",
@@ -94,7 +112,27 @@
     "completedDonations": "Completed Donations",
     "pendingDonations": "Pending Donations",
     "failedDonations": "Failed Donations",
-    "successThankYou": "Thank you! Your donation of {{amount}} has been received successfully"
+    "successThankYou": "Thank you! Your donation of ${{amount}} has been received successfully"
+  },
+  "user": {
+    "name": "Name",
+    "email": "Email",
+    "username": "Username",
+    "fullName": "Full Name",
+    "entity": "the user",
+    "role": "Role",
+    "joinDate": "Join Date",
+    "campaigns": "Campaigns",
+    "donations": "Donations",
+    "searchPlaceholder": "Search for user...",
+    "loading": "Loading users...",
+    "noUsers": "No users",
+    "status": {
+      "label": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "suspended": "Suspended"
+    }
   },
   "admin": {
     "dashboard": "Dashboard",
@@ -127,7 +165,14 @@
     "admin": "Admin",
     "user": "User",
     "addUser": "Add User",
-    "noPendingCampaigns": "No campaigns pending approval"
+    "noPendingCampaigns": "No campaigns pending approval",
+    "totalDonors": "Total Donors",
+    "pendingUsers": "Suspended Users",
+    "adminUsers": "Admins",
+    "role": {
+      "admin": "Admin",
+      "user": "User"
+    }
   },
   "common": {
     "loading": "Loading...",
@@ -165,7 +210,16 @@
     "yes": "Yes",
     "no": "No",
     "optional": "Optional",
-    "required": "Required"
+    "required": "Required",
+    "id": "#",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "actions": "Actions",
+    "notSpecified": "Not specified",
+    "noSearchResults": "No search results found",
+    "allLanguages": "All languages",
+    "errorLoadingData": "Error loading data"
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -250,6 +304,9 @@
     "allCampaigns": "All Campaigns",
     "campaignsDescription": "Browse available campaigns and donate to help achieve their goals.",
     "noCampaigns": "No campaigns are currently available.",
+    "featuredCampaigns": "Featured Campaigns",
+    "featuredCampaignsDescription": "Browse featured campaigns carefully selected to provide the best opportunities for donation and assistance.",
+    "noFeaturedCampaigns": "No featured campaigns are currently available.",
     "stats": {
       "activeDonors": "Total Active Donors",
       "totalDonations": "Total Amount of Donations Received",
@@ -452,5 +509,12 @@
     "foodRelief": "Food Relief",
     "emergency": "Emergency",
     "other": "Other"
+  },
+  "language": {
+    "arabic": "العربية",
+    "english": "English",
+    "french": "Français",
+    "spanish": "Español",
+    "russian": "Русский"
   }
 }

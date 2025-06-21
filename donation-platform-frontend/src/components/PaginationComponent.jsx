@@ -29,13 +29,21 @@ export default function PaginationComponent({
   onPageChange
 }) {
   const id = useId()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage,
     totalPages,
     paginationItemsToDisplay,
   })
+
+  // RTL languages
+  const rtlLanguages = ['ar', 'he', 'fa', 'ur']
+  const isRTL = rtlLanguages.includes(i18n.language)
+
+  // Get appropriate icons based on language direction
+  const PreviousIcon = isRTL ? ChevronRightIcon : ChevronLeftIcon
+  const NextIcon = isRTL ? ChevronLeftIcon : ChevronRightIcon
 
   const handlePageInputChange = (e) => {
     const pageNumber = parseInt(e.target.value, 10);
@@ -45,7 +53,7 @@ export default function PaginationComponent({
   }
 
   return (
-    <div className="flex w-full  md:flex-row items-center justify-between gap-4 py-4">
+    <div className="flex w-full md:flex-row items-center justify-between gap-4 py-4">
       {/* Pagination */}
       <div>
         <Pagination>
@@ -59,7 +67,7 @@ export default function PaginationComponent({
                 aria-disabled={currentPage === 1 ? true : undefined}
                 role="button"
               >
-                <ChevronRightIcon size={16} aria-hidden="true" />
+                <PreviousIcon size={16} aria-hidden="true" />
               </PaginationLink>
             </PaginationItem>
 
@@ -99,7 +107,7 @@ export default function PaginationComponent({
                 aria-disabled={currentPage === totalPages ? true : undefined}
                 role="button"
               >
-                <ChevronLeftIcon size={16} aria-hidden="true" />
+                <NextIcon size={16} aria-hidden="true" />
               </PaginationLink>
             </PaginationItem>
           </PaginationContent>

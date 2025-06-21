@@ -17,6 +17,7 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import AdminCampaignsPage from './pages/admin/AdminCampaignsPage';
 import AdminDonationsPage from './pages/admin/AdminDonationsPage';
+import { Toaster } from './components/ui/sonner';
 
 // Protected route component
 const ProtectedRoute = ({ children }) => {
@@ -73,6 +74,7 @@ const AdminRoute = ({ children }) => {
 function App() {
   return (
     <AuthProvider>
+       <Toaster />
       <Router>
         <Routes>
           {/* Public routes */}

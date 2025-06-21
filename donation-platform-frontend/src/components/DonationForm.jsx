@@ -11,6 +11,7 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Checkbox } from './ui/checkbox';
 import { Textarea } from './ui/textarea';
+import { toast } from "sonner"
 import { Alert, AlertDescription } from './ui/alert';
 import { CreditCard } from 'lucide-react';
 
@@ -55,15 +56,18 @@ const DonationForm = ({ campaignId, onSuccess }) => {
 
     try {
       // Create payment intent
-      const { data: paymentIntent } = await paymentAPI.createPaymentIntent({
+      const paymentIntent = await paymentAPI.createPaymentIntent({
         campaign_id: campaignId,
         amount: parseFloat(amount),
-        currency: 'sar',
+        currency: 'usd', // Keep USD for Stripe compatibility
         message: message || null,
         is_anonymous: isAnonymous,
         donor_name: isAnonymous ? null : (donorName || user?.full_name),
         donor_email: isAnonymous ? null : (donorEmail || user?.email),
       });
+
+      // The paymentAPI.createPaymentIntent already returns response.data
+      // So paymentIntent already contains { client_secret, payment_intent_id }
 
       // Confirm payment with Stripe
       const { error: stripeError, paymentIntent: confirmedPayment } = await stripe.confirmCardPayment(
@@ -84,7 +88,27 @@ const DonationForm = ({ campaignId, onSuccess }) => {
       } else if (confirmedPayment.status === 'succeeded') {
         // Confirm with backend
         await paymentAPI.confirmPayment(confirmedPayment.id);
-        setSuccess(true);
+        
+        // Show success toast with multi-language support
+        toast.success(t('donation.successThankYou', { 
+          amount: `${amount} ${t('common.sar')}` 
+        }), {
+          description: t('donation.successMessage'),
+          duration: 5000,
+          action: {
+            label: t('donation.donateAgain'),
+            onClick: () => {
+              setAmount('');
+              setMessage('');
+              if (!isAuthenticated) {
+                setDonorEmail('');
+                setDonorName('');
+              }
+              elements.getElement(CardElement).clear();
+            }
+          }
+        });
+        
         onSuccess && onSuccess({
           amount: parseFloat(amount),
           paymentIntentId: confirmedPayment.id
@@ -101,37 +125,13 @@ const DonationForm = ({ campaignId, onSuccess }) => {
       }
     } catch (error) {
       console.error('Donation error:', error);
-      setError(error.response?.data?.detail || t('common.error'));
+      console.error('Error response:', error.response?.data);
+      console.error('Error message:', error.message);
+      setError(error.response?.data?.detail || error.message || t('common.error'));
     } finally {
       setLoading(false);
     }
   };
-
-  // Success message display
-  if (success) {
-    return (
-      <Card className="max-w-md mx-auto">
-        <CardContent className="text-center p-6">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h3 className="text-lg font-semibold mb-2">{t('common.success')}</h3>
-          <p className="text-gray-600 mb-4">
-            {t('donation.successMessage')}
-          </p>
-          <Button 
-            onClick={() => setSuccess(false)}
-            variant="outline"
-            size="sm"
-          >
-            {t('donation.donateAgain')}
-          </Button>
-        </CardContent>
-      </Card>
-    );
-  }
 
   return (
     <Card className="max-w-md mx-auto">
@@ -160,17 +160,23 @@ const DonationForm = ({ campaignId, onSuccess }) => {
 
           {/* Quick Amount Buttons */}
           <div className="grid grid-cols-4 gap-2">
-            {[10, 25, 50, 100].map((quickAmount) => (
-              <Button
-                key={quickAmount}
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => setAmount(quickAmount.toString())}
-              >
-                ${quickAmount}
-              </Button>
-            ))}
+            {[13, 27, 67, 133].map((quickAmount, index) => {
+              const sarAmount = [50, 100, 250, 500][index];
+              return (
+                <Button
+                  key={quickAmount}
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setAmount(quickAmount.toString())}
+                  className="text-xs"
+                >
+                  ${quickAmount}
+                  <br />
+                  <span className="text-gray-500">({sarAmount} {t('common.sar')})</span>
+                </Button>
+              );
+            })}
           </div>
 
           {/* Donor Information (if not authenticated) */}
@@ -248,7 +254,7 @@ const DonationForm = ({ campaignId, onSuccess }) => {
             className="w-full"
             size="lg"
           >
-            {loading ? t('donation.processing') : `${t('donation.donate')} ${amount ? `$${amount}` : ''}`}
+            {loading ? t('donation.processing') : `${t('donation.donate')} ${amount ? `${t('common.sar')} ${amount}` : ''}`}
           </Button>
         </form>
       </CardContent>

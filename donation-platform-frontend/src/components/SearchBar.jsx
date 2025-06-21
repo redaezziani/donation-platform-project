@@ -120,7 +120,7 @@ const SearchBar = ({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           onFocus={() => setIsOpen(true)}
-          className="pl-10 pr-10"
+          className="pl-10 bg-white pr-10"
           disabled={isLoading}
         />
         {query && (
