@@ -45,7 +45,9 @@ uploads_dir = "uploads"
 if not os.path.exists(uploads_dir):
     os.makedirs(uploads_dir, exist_ok=True)
 
+# Mount uploads directory under both /static and /uploads for compatibility
 app.mount("/static", StaticFiles(directory=uploads_dir), name="static")
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
 # Initialize database tables on startup
 @app.on_event("startup")
