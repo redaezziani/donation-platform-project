@@ -1,10 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { newsletterAPI } from '../lib/api';
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus]= useState(null); // 'success' | 'error' | null
+  const [message, setMessage] = useState('');
+
+  const handleNewsletterSubscription = async (e) => {
+    e.preventDefault();
+    
+    if (!email.trim()) {
+      setSubscriptionStatus('error');
+      setMessage('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubscribing(true);
+    setSubscriptionStatus(null);
+    setMessage('');
+
+    try {
+      await newsletterAPI.subscribe(email, 'footer', i18n.language);
+      setSubscriptionStatus('success');
+      setMessage('Successfully subscribed to our newsletter!');
+      setEmail(''); // Clear the input
+    } catch (error) {
+      setSubscriptionStatus('error');
+      if (error.response?.status === 400) {
+        setMessage('Email is already subscribed to the newsletter');
+      } else {
+        setMessage('Failed to subscribe. Please try again later.');
+      }
+    } finally {
+      setIsSubscribing(false);
+      // Clear message after 5 seconds
+      setTimeout(() => {
+        setSubscriptionStatus(null);
+        setMessage('');
+      }, 5000);
+    }
+  };
 
   return (
     <footer className="bg-muted/50 border-t">
@@ -18,16 +58,33 @@ const Footer = () => {
             <p className="text-muted-foreground text-sm mb-6 max-w-md">
               {t('footer.newsletterDescription')}
             </p>
-            <div className="flex gap-2 max-w-sm">
-              <input
-                type="email"
-                placeholder={t('footer.emailPlaceholder')}
-                className="flex-1 px-3 py-2 text-sm border border-input rounded-md bg-background"
-              />
-              <button className="h-10 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">
-                {t('footer.subscribe')}
-              </button>
-            </div>
+            <form onSubmit={handleNewsletterSubscription} className="max-w-sm">
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder={t('footer.emailPlaceholder')}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 px-3 py-2 text-sm border border-input rounded-md bg-background"
+                  disabled={isSubscribing}
+                  required
+                />
+                <button 
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="h-10 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubscribing ? '...' : t('footer.subscribe')}
+                </button>
+              </div>
+              {message && (
+                <p className={`text-xs mt-2 ${
+                  subscriptionStatus === 'success' ? 'text-green-600' : 'text-red-600'
+                }`}>
+                  {message}
+                </p>
+              )}
+            </form>
           </div>
 
           {/* Quick Links */}

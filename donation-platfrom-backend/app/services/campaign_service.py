@@ -28,6 +28,14 @@ def create_campaign(db: Session, campaign_data: CampaignCreate, creator_id: int)
     db.commit()
     db.refresh(db_campaign)
     
+    # Send email notification if campaign is active (only for newly published campaigns)
+    if db_campaign.status == CampaignStatus.ACTIVE:
+        try:
+            from app.services.email_service import email_service
+            email_service.send_new_campaign_notification(db, db_campaign)
+        except Exception as e:
+            print(f"Failed to send new campaign notification: {e}")
+    
     return db_campaign
 
 def get_campaign_by_id(db: Session, campaign_id: int):
@@ -152,6 +160,9 @@ def update_campaign(db: Session, campaign_id: int, campaign_data: CampaignUpdate
     if not db_campaign:
         return None
     
+    # Store previous status for comparison
+    previous_status = db_campaign.status
+    
     # Update campaign with new data
     update_data = campaign_data.dict(exclude_unset=True)
     for field, value in update_data.items():
@@ -163,6 +174,20 @@ def update_campaign(db: Session, campaign_id: int, campaign_data: CampaignUpdate
     # Save changes
     db.commit()
     db.refresh(db_campaign)
+    
+    # Send email notifications based on status changes
+    try:
+        from app.services.email_service import email_service
+        
+        # If campaign was just published (changed from non-active to active)
+        if previous_status != CampaignStatus.ACTIVE and db_campaign.status == CampaignStatus.ACTIVE:
+            email_service.send_new_campaign_notification(db, db_campaign)
+        
+        # If campaign was just completed
+        elif previous_status != CampaignStatus.COMPLETED and db_campaign.status == CampaignStatus.COMPLETED:
+            email_service.send_campaign_completed_notification(db, db_campaign)
+    except Exception as e:
+        print(f"Failed to send campaign update notification: {e}")
     
     return db_campaign
 
@@ -183,6 +208,9 @@ def update_campaign_amount(db: Session, campaign_id: int, amount: float):
     if not db_campaign:
         return None
     
+    # Store previous status for comparison
+    previous_status = db_campaign.status
+    
     # Add the donation amount to the current amount
     db_campaign.current_amount += amount
     
@@ -193,6 +221,14 @@ def update_campaign_amount(db: Session, campaign_id: int, amount: float):
     # Save changes
     db.commit()
     db.refresh(db_campaign)
+    
+    # Send completion notification if campaign just completed
+    if previous_status != CampaignStatus.COMPLETED and db_campaign.status == CampaignStatus.COMPLETED:
+        try:
+            from app.services.email_service import email_service
+            email_service.send_campaign_completed_notification(db, db_campaign)
+        except Exception as e:
+            print(f"Failed to send campaign completion notification: {e}")
     
     return db_campaign
 

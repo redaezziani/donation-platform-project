@@ -400,6 +400,125 @@ export const analyticsAPI = {
     const response = await api.get(`/api/v1/analytics/weekly-overview?weeks=${weeks}`);
     return response.data;
   },
+
+  // Get comprehensive analytics data
+  getComprehensiveAnalytics: async () => {
+    try {
+      const response = await api.get('/api/v1/analytics/comprehensive');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching comprehensive analytics:', error);
+      throw error;
+    }
+  },
+
+  // Get donation trends
+  getDonationTrends: async (days = 30) => {
+    try {
+      const response = await api.get(`/api/v1/analytics/donation-trends?days=${days}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching donation trends:', error);
+      throw error;
+    }
+  },
+
+  // Get category distribution
+  getCategoryDistribution: async () => {
+    try {
+      const response = await api.get('/api/v1/analytics/category-distribution');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching category distribution:', error);
+      throw error;
+    }
+  },
+};
+
+// Newsletter API functions
+export const newsletterAPI = {
+  // Subscribe to newsletter
+  subscribe: async (email, source = 'footer', language = 'en') => {
+    try {
+      const response = await api.post('/api/v1/newsletter/subscribe', {
+        email,
+        source,
+        language
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error subscribing to newsletter:', error);
+      throw error;
+    }
+  },
+
+  // Unsubscribe from newsletter
+  unsubscribe: async (email) => {
+    try {
+      const response = await api.post('/api/v1/newsletter/unsubscribe', {
+        email
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error unsubscribing from newsletter:', error);
+      throw error;
+    }
+  },
+
+  // Get subscription status
+  getSubscriptionStatus: async (email) => {
+    try {
+      const response = await api.get(`/api/v1/newsletter/subscription/${encodeURIComponent(email)}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting subscription status:', error);
+      throw error;
+    }
+  },
+
+  // Get newsletter statistics (admin only)
+  getStats: async () => {
+    try {
+      const response = await api.get('/api/v1/newsletter/stats');
+      return response.data;
+    } catch (error) {
+      console.error('Error getting newsletter stats:', error);
+      throw error;
+    }
+  },
+
+  // Get newsletter subscribers (admin only)
+  getSubscribers: async (page = 1, pageSize = 50) => {
+    try {
+      const response = await api.get(`/api/v1/newsletter/subscribers?page=${page}&page_size=${pageSize}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting newsletter subscribers:', error);
+      throw error;
+    }
+  },
+
+  // Test email sending (admin only)
+  testEmail: async () => {
+    try {
+      const response = await api.post('/api/v1/newsletter/test-email');
+      return response.data;
+    } catch (error) {
+      console.error('Error sending test email:', error);
+      throw error;
+    }
+  },
+
+  // Create test campaign (admin only)
+  createTestCampaign: async () => {
+    try {
+      const response = await api.post('/api/v1/newsletter/test-campaign');
+      return response.data;
+    } catch (error) {
+      console.error('Error creating test campaign:', error);
+      throw error;
+    }
+  },
 };
 
 export default api;

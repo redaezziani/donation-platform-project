@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #f5f5f5; 
+            direction: ltr;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+        }
+        .header { 
+            background-color: #2563eb; 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        .content { 
+            padding: 20px; 
+        }
+        .campaign-info { 
+            background-color: #f8fafc; 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin: 15px 0; 
+        }
+        .button { 
+            display: inline-block; 
+            background-color: #2563eb; 
+            color: white; 
+            text-decoration: none; 
+            padding: 12px 24px; 
+            border-radius: 6px; 
+            margin: 15px 0; 
+        }
+        .footer { 
+            background-color: #f1f5f9; 
+            padding: 15px; 
+            text-align: center; 
+            font-size: 12px; 
+            color: #64748b; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 New Campaign Alert!</h1>
+        </div>
+        <div class="content">
+            <h2>{{campaign_title}}</h2>
+            <p>{{campaign_description}}</p>
+            
+            <div class="campaign-info">
+                <strong>💰 Target Amount:</strong> ${{target_amount}}<br>
+                <strong>🎯 Current Progress:</strong> ${{current_amount}}<br>
+                <strong>📅 Campaign Ends:</strong> {{end_date}}
+            </div>
+            
+            <p>Your support can make a real difference. Every donation, no matter the size, brings us closer to our goal.</p>
+            
+            <a href="{{campaign_url}}" class="button">
+                🤝 Support This Campaign
+            </a>
+        </div>
+        <div class="footer">
+            <p>You received this email because you subscribed to our newsletter.</p>
+            <p><a href="{{unsubscribe_url}}">Unsubscribe</a> | <a href="{{website_url}}">Visit Website</a></p>
+        </div>
+    </div>
+</body>
+</html>

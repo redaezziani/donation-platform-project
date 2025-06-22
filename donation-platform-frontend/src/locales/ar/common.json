@@ -140,7 +140,6 @@
     "cancel": "إلغاء",
     "actions": "إجراءات",
     "status": "الحالة",
-    "role": "الدور",
     "joinDate": "تاريخ الانضمام",
     "admin": "مدير",
     "user": "مستخدم",
@@ -243,6 +242,15 @@
     "newsletterDescription": "اشترك في نشرتنا البريدية للبقاء على اطلاع بأحدث الحملات والأخبار",
     "emailPlaceholder": "بريدك الإلكتروني",
     "subscribe": "اشتراك",
+    "subscribing": "جاري الاشتراك...",
+    "subscribeSuccess": "تم الاشتراك في النشرة البريدية بنجاح!",
+    "subscribeError": "فشل في الاشتراك. يرجى المحاولة مرة أخرى لاحقاً.",
+    "alreadySubscribed": "البريد الإلكتروني مشترك بالفعل في النشرة البريدية",
+    "unsubscribe": "إلغاء الاشتراك",
+    "unsubscribeSuccess": "تم إلغاء الاشتراك في النشرة البريدية بنجاح",
+    "unsubscribeError": "فشل في إلغاء الاشتراك. يرجى المحاولة مرة أخرى لاحقاً.",
+    "unsubscribeTitle": "إلغاء الاشتراك في النشرة البريدية",
+    "unsubscribeDescription": "أدخل عنوان بريدك الإلكتروني لإلغاء الاشتراك في نشرتنا البريدية",
     "copyright": "جميع الحقوق محفوظة",
     "brandName": "قلب واحد"
   },
@@ -511,7 +519,24 @@
     "totalDonations": "إجمالي التبرعات",
     "campaigns": "الحملات",
     "percentage": "النسبة المئوية",
-    "errorLoading": "خطأ في تحميل بيانات التحليلات"
+    "errorLoading": "خطأ في تحميل بيانات التحليلات",
+    "totalCampaigns": "إجمالي الحملات",
+    "totalUsers": "إجمالي المستخدمين",
+    "newsletterSubscribers": "مشتركي النشرة الإخبارية",
+    "active": "نشطة",
+    "completed": "مكتملة",
+    "fromDonations": "من {count} تبرعات",
+    "registeredUsers": "المستخدمون المسجلون",
+    "activeSubscribers": "المشتركون النشطون",
+    "donationTrendsDescription": "عرض اتجاهات التبرعات لآخر 30 يوماً",
+    "campaignStatusDescription": "توزيع حالة الحملات",
+    "categoryDistributionDescription": "توزيع الحملات حسب الفئة",
+    "recentDonationActivity": "نشاط التبرعات الحديث",
+    "dailyDonationAmounts": "مبالغ وعدد التبرعات اليومية",
+    "campaignActivityOverview": "نظرة عامة على نشاط الحملات",
+    "currentStatusCampaigns": "الحالة الحالية لجميع الحملات",
+    "popularCampaignCategories": "فئات الحملات الأكثر شيوعاً",
+    "basedOnCampaignCount": "بناءً على إجمالي عدد الحملات"
   },
   "categories": {
     "waterProjects": "مشاريع المياه",
@@ -530,5 +555,47 @@
     "french": "Français",
     "spanish": "Español",
     "russian": "Русский"
+  },
+  "charts": {
+    "noDataAvailable": "لا توجد بيانات متاحة",
+    "noDonationDataAvailable": "لا توجد بيانات تبرعات متاحة",
+    "noCategoryDataAvailable": "لا توجد بيانات فئات متاحة",
+    "campaigns": "الحملات",
+    "donations": "التبرعات",
+    "amount": "المبلغ",
+    "labels": {
+      "donations": "التبرعات",
+      "amount": "المبلغ",
+      "campaigns": "الحملات"
+    },
+    "weeklyOverview": {
+      "title": "نظرة عامة أسبوعية - منصة التبرعات",
+      "description": "عرض إحصائيات التبرعات والمستخدمين لآخر 16 أسبوع",
+      "descriptionWithError": "عرض إحصائيات التبرعات والمستخدمين لآخر 16 أسبوع (يتم عرض بيانات تجريبية)",
+      "donationsLabel": "التبرعات (ر.س)",
+      "usersLabel": "المستخدمون الجدد",
+      "totalDonations": "إجمالي التبرعات",
+      "newUsers": "المستخدمون الجدد",
+      "weekLabel": "الأسبوع",
+      "dataFetchError": "حدث خطأ أثناء جلب البيانات التحليلية"
+    }
+  },
+  "newsletter": {
+    "statistics": "إحصائيات النشرة الإخبارية",
+    "testEmail": "إرسال بريد تجريبي",
+    "createTestCampaign": "إنشاء حملة تجريبية",
+    "activeSubscribers": "المشتركون النشطون",
+    "recentSubscriptions": "الحديثة (30 يوم)",
+    "totalSubscribers": "إجمالي المشتركين",
+    "unsubscribed": "ألغوا الاشتراك",
+    "recentSubscribers": "المشتركون الحديثون",
+    "noSubscribersYet": "لا يوجد مشتركون بعد",
+    "failedToLoad": "فشل في تحميل بيانات النشرة الإخبارية",
+    "testEmailSent": "تم إرسال البريد التجريبي بنجاح!",
+    "testCampaignCreated": "تم إنشاء الحملة التجريبية!",
+    "accessDenied": "تم رفض الوصول: صلاحيات الإدارة مطلوبة",
+    "authenticationFailed": "فشل التحقق: يرجى تسجيل الدخول مرة أخرى",
+    "failedToSendTestEmail": "فشل في إرسال البريد التجريبي",
+    "failedToCreateTestCampaign": "فشل في إنشاء الحملة التجريبية"
   }
 }

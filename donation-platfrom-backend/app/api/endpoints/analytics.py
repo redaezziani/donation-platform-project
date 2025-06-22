@@ -1,15 +1,17 @@
 from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func, text
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
 
 from app.db.database import get_db
 from app.db.models.campaign import Campaign
 from app.db.models.donation import Donation
+from app.db.models.category import Category
 from app.auth.jwt import get_current_user
 from app.db.models.user import User
+from app.services.analytics_service import get_analytics_data, AnalyticsService
 
 router = APIRouter(tags=["analytics"])
 
@@ -145,6 +147,36 @@ class DonationTrendsResponse(BaseModel):
 class CategoryDistributionResponse(BaseModel):
     distribution: List[CategoryDistributionPoint]
 
+class ComprehensiveAnalyticsResponse(BaseModel):
+    overview: Dict[str, Any]
+    donation_trends: List[Dict[str, Any]]
+    campaign_status: List[Dict[str, Any]]
+    category_distribution: List[Dict[str, Any]]
+    monthly_revenue: List[Dict[str, Any]]
+    top_campaigns: List[Dict[str, Any]]
+    user_growth: List[Dict[str, Any]]
+
+@router.get("/comprehensive", response_model=ComprehensiveAnalyticsResponse)
+async def get_comprehensive_analytics(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Get comprehensive analytics data for the admin dashboard.
+    Requires authentication and admin privileges.
+    """
+    # Check if user is admin
+    if not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin access required"
+        )
+    
+    # Get all analytics data using our new service
+    analytics_data = get_analytics_data(db)
+    
+    return ComprehensiveAnalyticsResponse(**analytics_data)
+
 
 @router.get("/donation-trends", response_model=List[DonationTrendPoint])
 async def get_donation_trends(
@@ -163,29 +195,18 @@ async def get_donation_trends(
             detail="Admin access required"
         )
     
-    # Calculate the start date
-    end_date = datetime.now(timezone.utc)
-    start_date = end_date - timedelta(days=days)
+    # Use the analytics service to get real data
+    analytics = AnalyticsService(db)
+    trends_data = analytics.get_donation_trends(days)
     
-    # For now, we'll generate mock data since we don't have actual donation tracking
-    # In a real implementation, this would query the donations table
+    # Convert to the expected format
     trends = []
-    current_date = start_date
-    
-    while current_date <= end_date:
-        date_str = current_date.strftime('%Y-%m-%d')
-        
-        # Mock data generation - replace with actual queries
-        import random
-        random.seed(int(current_date.timestamp()))  # Consistent random data
-        
+    for trend in trends_data:
         trends.append(DonationTrendPoint(
-            date=date_str,
-            donations=random.randint(5, 50),
-            amount=random.uniform(1000, 10000)
+            date=trend['date'],
+            donations=trend['donations'],
+            amount=trend['amount']
         ))
-        
-        current_date += timedelta(days=1)
     
     return trends
 
@@ -206,52 +227,43 @@ async def get_category_distribution(
             detail="Admin access required"
         )
     
-    # Colors for the pie chart
-    colors = [
-        '#3b82f6',  # Blue
-        '#22c55e',  # Green
-        '#f59e0b',  # Amber
-        '#ef4444',  # Red
-        '#8b5cf6',  # Purple
-        '#06b6d4',  # Cyan
-        '#f97316',  # Orange
-        '#84cc16',  # Lime
-    ]
+    # Use the analytics service to get real category data
+    analytics = AnalyticsService(db)
+    category_data = analytics.get_category_distribution()
     
-    # Query campaigns by category
-    category_data = db.query(
-        Campaign.category,
-        func.count(Campaign.id).label('count'),
-        func.sum(Campaign.current_amount).label('total_amount')
-    ).filter(
-        Campaign.status.in_(['active', 'completed'])
-    ).group_by(Campaign.category).all()
-    
+    # Convert to the expected format
     distribution = []
-    for i, (category, count, total_amount) in enumerate(category_data):
+    for category in category_data:
+        # Calculate total amount for this category
+        # Query the actual total raised amount for campaigns in this category
+        total_amount = db.query(func.sum(Campaign.current_amount)).join(
+            Campaign.categories
+        ).filter(
+            Category.name == category['category']
+        ).scalar() or 0
+        
         distribution.append(CategoryDistributionPoint(
-            name=category or 'Other',
-            value=int(count),
-            amount=float(total_amount or 0),
-            color=colors[i % len(colors)]
+            name=category['category'],
+            value=category['count'],
+            amount=float(total_amount),
+            color=category['fill']
         ))
     
-    # If no data, return mock data
+    # If no real data, provide some fallback data
     if not distribution:
-        mock_categories = [
-            ('Water Projects', 35, 125000),
-            ('Orphan Education', 25, 85000),
-            ('Medical Aid', 20, 95000),
-            ('Food Relief', 15, 45000),
-            ('Emergency', 5, 25000),
+        fallback_data = [
+            ('Water Projects', 5, 25000, '#3b82f6'),
+            ('Education', 3, 15000, '#22c55e'),
+            ('Healthcare', 2, 18000, '#f59e0b'),
+            ('Emergency Aid', 1, 5000, '#ef4444'),
         ]
         
-        for i, (name, value, amount) in enumerate(mock_categories):
+        for name, value, amount, color in fallback_data:
             distribution.append(CategoryDistributionPoint(
                 name=name,
                 value=value,
                 amount=amount,
-                color=colors[i % len(colors)]
+                color=color
             ))
     
     return distribution

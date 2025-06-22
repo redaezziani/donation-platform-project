@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 
 import {
   Card,
@@ -16,24 +16,27 @@ import {
   ChartTooltipContent,
 } from "../ui/chart"
 import { analyticsAPI } from "../../lib/api"
+import { useLanguage } from "../../hooks/useLanguage"
 
 export const description = "Weekly donation platform overview chart"
 
-const chartConfig = {
-  donations: {
-    label: "التبرعات (ر.س)",
-    color: "#3b82f6",
-  },
-  users: {
-    label: "المستخدمون الجدد",
-    color: "#22c55e", // Lighter green color
-  },
-} 
-
 export function ChartBarInteractive() {
+  const { t, formatCurrency } = useLanguage()
   const [chartData, setChartData] = React.useState([])
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState("")
+
+  // Create dynamic chart config with translations
+  const chartConfig = React.useMemo(() => ({
+    donations: {
+      label: t('charts.weeklyOverview.donationsLabel'),
+      color: "hsl(var(--chart-1))",
+    },
+    users: {
+      label: t('charts.weeklyOverview.usersLabel'),
+      color: "hsl(var(--chart-2))",
+    },
+  }), [t])
 
   React.useEffect(() => {
     fetchAnalyticsData()
@@ -56,7 +59,7 @@ export function ChartBarInteractive() {
       setChartData(transformedData)
     } catch (err) {
       console.error('Error fetching analytics data:', err)
-      setError('حدث خطأ أثناء جلب البيانات التحليلية')
+      setError(t('charts.weeklyOverview.dataFetchError'))
       
       // Fallback to sample data for testing
       const fallbackData = [
@@ -92,7 +95,7 @@ export function ChartBarInteractive() {
     [chartData]
   )
 
-  const formatCurrency = (value) => {
+  const formatCurrencySAR = (value) => {
     return new Intl.NumberFormat('ar-SA', {
       style: 'currency',
       currency: 'SAR',
@@ -105,10 +108,7 @@ export function ChartBarInteractive() {
       <Card className="py-0">
         <CardContent className="p-6">
           <div className="flex items-center justify-center h-[250px]">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
-              <p className="text-sm text-muted-foreground">جاري تحميل البيانات التحليلية...</p>
-            </div>
+            <div className="flex aspect-video animate-pulse rounded-md bg-muted" />
           </div>
         </CardContent>
       </Card>
@@ -119,12 +119,12 @@ export function ChartBarInteractive() {
     <Card className="py-0">
       <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-1 sm:!py-0">
-          <CardTitle>نظرة عامة أسبوعية - منصة التبرعات</CardTitle>
+          <CardTitle>{t('charts.weeklyOverview.title')}</CardTitle>
           <CardDescription>
-            عرض إحصائيات التبرعات والمستخدمين لآخر 16 أسبوع
+            {error ? t('charts.weeklyOverview.descriptionWithError') : t('charts.weeklyOverview.description')}
             {error && (
               <span className="text-destructive block">
-                {error} (يتم عرض بيانات تجريبية)
+                {error}
               </span>
             )}
           </CardDescription>
@@ -142,7 +142,7 @@ export function ChartBarInteractive() {
                 <span className="text-lg leading-none font-bold sm:text-3xl">
                   {key === 'donations' 
                     ? formatCurrency(total[key])
-                    : total[key].toLocaleString('ar-SA')
+                    : total[key].toLocaleString()
                   }
                 </span>
               </div>
@@ -151,28 +151,6 @@ export function ChartBarInteractive() {
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
-        {/* Chart Legend */}
-        <div className="flex items-center justify-center gap-6 mb-4">
-          <div className="flex items-center gap-2">
-            <div 
-              className="w-5 h-1.5 "
-              style={{ backgroundColor: chartConfig.donations.color }}
-            />
-            <span className="text-sm text-muted-foreground">
-              {chartConfig.donations.label}
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div 
-              className="w-5 h-1.5 "
-              style={{ backgroundColor: chartConfig.users.color }}
-            />
-            <span className="text-sm text-muted-foreground">
-              {chartConfig.users.label}
-            </span>
-          </div>
-        </div>
-
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[280px] w-full"
@@ -187,7 +165,7 @@ export function ChartBarInteractive() {
               bottom: 12,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid vertical={false} />
             <XAxis
               dataKey="period"
               tickLine={false}
@@ -196,31 +174,11 @@ export function ChartBarInteractive() {
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value)
-                return date.toLocaleDateString("ar-SA", {
+                return date.toLocaleDateString(undefined, {
                   month: "short",
                   day: "numeric",
                 })
               }}
-            />
-            <YAxis 
-              yAxisId="left"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => {
-                return new Intl.NumberFormat('ar-SA', {
-                  notation: 'compact',
-                  compactDisplay: 'short'
-                }).format(value)
-              }}
-            />
-            <YAxis 
-              yAxisId="right"
-              orientation="right"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value}
             />
             <ChartTooltip
               content={
@@ -231,10 +189,10 @@ export function ChartBarInteractive() {
                     const endDate = new Date(date)
                     endDate.setDate(date.getDate() + 6)
                     
-                    return `الأسبوع: ${date.toLocaleDateString("ar-SA", {
+                    return `${t('charts.weeklyOverview.weekLabel')}: ${date.toLocaleDateString(undefined, {
                       month: "short",
                       day: "numeric",
-                    })} - ${endDate.toLocaleDateString("ar-SA", {
+                    })} - ${endDate.toLocaleDateString(undefined, {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
@@ -242,33 +200,31 @@ export function ChartBarInteractive() {
                   }}
                   formatter={(value, name) => {
                     if (name === 'donations') {
-                      return [formatCurrency(value), 'إجمالي التبرعات']
+                      return [formatCurrency(value), t('charts.weeklyOverview.totalDonations')]
                     }
                     if (name === 'users') {
-                      return [value, 'المستخدمون الجدد']
+                      return [value, t('charts.weeklyOverview.newUsers')]
                     }
                     return [value, name]
                   }}
                 />
               }
             />
-            <Area 
-              yAxisId="left"
-              type="liner"
-              dataKey="donations" 
-              stroke={chartConfig.donations.color}
-              fill={chartConfig.donations.color}
-              fillOpacity={0.2}
-              strokeWidth={2}
+            <Area
+              dataKey="donations"
+              type="natural"
+              fill="var(--color-donations)"
+              fillOpacity={0.4}
+              stroke="var(--color-donations)"
+              stackId="a"
             />
-            <Area 
-              yAxisId="right"
-              type="liner"
-              dataKey="users" 
-              stroke={chartConfig.users.color}
-              fill={chartConfig.users.color}
-              fillOpacity={0.2}
-              strokeWidth={2}
+            <Area
+              dataKey="users"
+              type="natural"
+              fill="var(--color-users)"
+              fillOpacity={0.4}
+              stroke="var(--color-users)"
+              stackId="a"
             />
           </AreaChart>
         </ChartContainer>

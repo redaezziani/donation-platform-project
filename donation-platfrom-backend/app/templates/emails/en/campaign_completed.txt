@@ -1,0 +1,14 @@
+Campaign Successfully Completed: {{campaign_title}}
+
+We're thrilled to announce that this campaign has reached its goal!
+
+Target Amount: ${{target_amount}}
+Amount Raised: ${{current_amount}}
+Success Rate: {{success_rate}}%
+
+Thanks to the generosity of our donors, we can now make a real impact. Stay tuned for updates on how the funds are being used!
+
+---
+You received this email because you subscribed to our newsletter.
+Unsubscribe: {{unsubscribe_url}}
+Visit Website: {{website_url}}

@@ -160,7 +160,6 @@
     "cancel": "Cancel",
     "actions": "Actions",
     "status": "Status",
-    "role": "Role",
     "joinDate": "Join Date",
     "admin": "Admin",
     "user": "User",
@@ -243,6 +242,15 @@
     "newsletterDescription": "Subscribe to our newsletter to stay updated with the latest campaigns and news",
     "emailPlaceholder": "Your email address",
     "subscribe": "Subscribe",
+    "subscribing": "Subscribing...",
+    "subscribeSuccess": "Successfully subscribed to our newsletter!",
+    "subscribeError": "Failed to subscribe. Please try again later.",
+    "alreadySubscribed": "Email is already subscribed to the newsletter",
+    "unsubscribe": "Unsubscribe",
+    "unsubscribeSuccess": "Successfully unsubscribed from newsletter",
+    "unsubscribeError": "Failed to unsubscribe. Please try again later.",
+    "unsubscribeTitle": "Unsubscribe from Newsletter",
+    "unsubscribeDescription": "Enter your email address to unsubscribe from our newsletter",
     "copyright": "All rights reserved",
     "brandName": "One Heart"
   },
@@ -511,7 +519,24 @@
     "totalDonations": "Total Donations",
     "campaigns": "Campaigns",
     "percentage": "Percentage",
-    "errorLoading": "Error loading analytics data"
+    "errorLoading": "Error loading analytics data",
+    "totalCampaigns": "Total Campaigns",
+    "totalUsers": "Total Users",
+    "newsletterSubscribers": "Newsletter Subscribers",
+    "active": "active",
+    "completed": "completed",
+    "fromDonations": "From {count} donations",
+    "registeredUsers": "Registered users",
+    "activeSubscribers": "Active subscribers",
+    "donationTrendsDescription": "Showing donation trends for the last 30 days",
+    "campaignStatusDescription": "Campaign status distribution",
+    "categoryDistributionDescription": "Campaign distribution by category",
+    "recentDonationActivity": "Recent donation activity",
+    "dailyDonationAmounts": "Daily donation amounts and counts",
+    "campaignActivityOverview": "Campaign activity overview",
+    "currentStatusCampaigns": "Current status of all campaigns",
+    "popularCampaignCategories": "Most popular campaign categories",
+    "basedOnCampaignCount": "Based on total campaign count"
   },
   "categories": {
     "waterProjects": "Water Projects",
@@ -530,5 +555,47 @@
     "french": "Français",
     "spanish": "Español",
     "russian": "Русский"
+  },
+  "charts": {
+    "noDataAvailable": "No data available",
+    "noDonationDataAvailable": "No donation data available",
+    "noCategoryDataAvailable": "No category data available",
+    "campaigns": "Campaigns",
+    "donations": "Donations",
+    "amount": "Amount",
+    "labels": {
+      "donations": "Donations",
+      "amount": "Amount",
+      "campaigns": "Campaigns"
+    },
+    "weeklyOverview": {
+      "title": "Weekly Overview - Donation Platform",
+      "description": "Display donation and user statistics for the last 16 weeks",
+      "descriptionWithError": "Display donation and user statistics for the last 16 weeks (test data is displayed)",
+      "donationsLabel": "Donations ($)",
+      "usersLabel": "New Users",
+      "totalDonations": "Total Donations",
+      "newUsers": "New Users",
+      "weekLabel": "Week",
+      "dataFetchError": "An error occurred while fetching analytics data"
+    }
+  },
+  "newsletter": {
+    "statistics": "Newsletter Statistics",
+    "testEmail": "Test Email",
+    "createTestCampaign": "Create Test Campaign",
+    "activeSubscribers": "Active Subscribers",
+    "recentSubscriptions": "Recent (30 days)",
+    "totalSubscribers": "Total Subscribers",
+    "unsubscribed": "Unsubscribed",
+    "recentSubscribers": "Recent Subscribers",
+    "noSubscribersYet": "No subscribers yet",
+    "failedToLoad": "Failed to load newsletter data",
+    "testEmailSent": "Test email sent successfully!",
+    "testCampaignCreated": "Test campaign created!",
+    "accessDenied": "Access denied: Admin privileges required",
+    "authenticationFailed": "Authentication failed: Please login again",
+    "failedToSendTestEmail": "Failed to send test email",
+    "failedToCreateTestCampaign": "Failed to create test campaign"
   }
 }

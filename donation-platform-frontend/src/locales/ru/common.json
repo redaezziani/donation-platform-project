@@ -467,7 +467,24 @@
     "totalDonations": "Всего Пожертвований",
     "campaigns": "Кампании",
     "percentage": "Процент",
-    "errorLoading": "Ошибка загрузки данных аналитики"
+    "errorLoading": "Ошибка загрузки данных аналитики",
+    "totalCampaigns": "Всего Кампаний",
+    "totalUsers": "Всего Пользователей",
+    "newsletterSubscribers": "Подписчики Рассылки",
+    "active": "активных",
+    "completed": "завершенных",
+    "fromDonations": "Из {count} пожертвований",
+    "registeredUsers": "Зарегистрированные пользователи",
+    "activeSubscribers": "Активные подписчики",
+    "donationTrendsDescription": "Показ тенденций пожертвований за последние 30 дней",
+    "campaignStatusDescription": "Распределение статуса кампаний",
+    "categoryDistributionDescription": "Распределение кампаний по категориям",
+    "recentDonationActivity": "Недавняя активность пожертвований",
+    "dailyDonationAmounts": "Ежедневные суммы и количество пожертвований",
+    "campaignActivityOverview": "Обзор активности кампаний",
+    "currentStatusCampaigns": "Текущий статус всех кампаний",
+    "popularCampaignCategories": "Самые популярные категории кампаний",
+    "basedOnCampaignCount": "На основе общего количества кампаний"
   },
   "categories": {
     "waterProjects": "Водные Проекты",
@@ -483,5 +500,47 @@
     "french": "Français",
     "spanish": "Español",
     "russian": "Русский"
+  },
+  "charts": {
+    "noDataAvailable": "Нет доступных данных",
+    "noDonationDataAvailable": "Нет данных о пожертвованиях",
+    "noCategoryDataAvailable": "Нет данных о категориях",
+    "campaigns": "Кампании",
+    "donations": "Пожертвования",
+    "amount": "Сумма",
+    "labels": {
+      "donations": "Пожертвования",
+      "amount": "Сумма",
+      "campaigns": "Кампании"
+    },
+    "weeklyOverview": {
+      "title": "Еженедельный Обзор - Платформа Пожертвований",
+      "description": "Отображение статистики пожертвований и пользователей за последние 16 недель",
+      "descriptionWithError": "Отображение статистики пожертвований и пользователей за последние 16 недель (отображаются тестовые данные)",
+      "donationsLabel": "Пожертвования (₽)",
+      "usersLabel": "Новые Пользователи",
+      "totalDonations": "Общая Сумма Пожертвований",
+      "newUsers": "Новые Пользователи",
+      "weekLabel": "Неделя",
+      "dataFetchError": "Произошла ошибка при получении аналитических данных"
+    }
+  },
+  "newsletter": {
+    "statistics": "Статистика Рассылки",
+    "testEmail": "Тестовое Письмо",
+    "createTestCampaign": "Создать Тест Кампанию",
+    "activeSubscribers": "Активные Подписчики",
+    "recentSubscriptions": "Недавние (30 дней)",
+    "totalSubscribers": "Всего Подписчиков",
+    "unsubscribed": "Отписались",
+    "recentSubscribers": "Недавние Подписчики",
+    "noSubscribersYet": "Пока нет подписчиков",
+    "failedToLoad": "Ошибка загрузки данных рассылки",
+    "testEmailSent": "Тестовое письмо успешно отправлено!",
+    "testCampaignCreated": "Тестовая кампания создана!",
+    "accessDenied": "Доступ запрещен: Требуются права администратора",
+    "authenticationFailed": "Ошибка аутентификации: Пожалуйста, войдите снова",
+    "failedToSendTestEmail": "Ошибка отправки тестового письма",
+    "failedToCreateTestCampaign": "Ошибка создания тестовой кампании"
   }
 }

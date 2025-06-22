@@ -31,10 +31,10 @@ const UserStatsCards = ({ stats }) => {
             animate="visible"
             custom={0}
           >
-            <dt className="text-base/7 text-gray-600">
+            <dt className="text-base/7 text-muted-foreground">
               {t('admin.totalUsers', 'إجمالي المستخدمين')}
             </dt>
-            <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+            <dd className="order-first text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
               <AnimatedCounter value={stats.totalUsers} duration={1.5} />
             </dd>
           </motion.div>
@@ -46,10 +46,10 @@ const UserStatsCards = ({ stats }) => {
             animate="visible"
             custom={1}
           >
-            <dt className="text-base/7 text-gray-600">
+            <dt className="text-base/7 text-muted-foreground">
               {t('user.status.active', 'المستخدمون النشطون')}
             </dt>
-            <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+            <dd className="order-first text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
               <AnimatedCounter value={stats.activeUsers} duration={1.5} />
             </dd>
           </motion.div>
@@ -61,10 +61,10 @@ const UserStatsCards = ({ stats }) => {
             animate="visible"
             custom={2}
           >
-            <dt className="text-base/7 text-gray-600">
+            <dt className="text-base/7 text-muted-foreground">
               {t('admin.pendingUsers', 'المستخدمون المعلقون')}
             </dt>
-            <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+            <dd className="order-first text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
               <AnimatedCounter value={stats.suspendedUsers} duration={1.5} />
             </dd>
           </motion.div>
@@ -76,10 +76,10 @@ const UserStatsCards = ({ stats }) => {
             animate="visible"
             custom={3}
           >
-            <dt className="text-base/7 text-gray-600">
+            <dt className="text-base/7 text-muted-foreground">
               {t('admin.adminUsers', 'المديرين')}
             </dt>
-            <dd className="order-first text-3xl font-semibold tracking-tight text-gray-900 sm:text-5xl">
+            <dd className="order-first text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
               <AnimatedCounter value={stats.adminUsers} duration={1.5} />
             </dd>
           </motion.div>

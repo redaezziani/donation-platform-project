@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #f5f5f5; 
+            direction: ltr;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+        }
+        .header { 
+            background-color: #ff4f1c; 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        .content { 
+            padding: 20px; 
+        }
+        .success-info { 
+            background-color: #ecfdf5; 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin: 15px 0; 
+            border-left: 4px solid #ff4f1c; 
+        }
+        .footer { 
+            background-color: #f1f5f9; 
+            padding: 15px; 
+            text-align: center; 
+            font-size: 12px; 
+            color: #64748b; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 ¡Campaña Completada Exitosamente!</h1>
+        </div>
+        <div class="content">
+            <h2>{{campaign_title}}</h2>
+            <p>¡Nos complace anunciar que esta campaña ha alcanzado su objetivo!</p>
+            
+            <div class="success-info">
+                <strong>🎯 Cantidad Objetivo:</strong> ${{target_amount}}<br>
+                <strong>💰 Cantidad Recaudada:</strong> ${{current_amount}}<br>
+                <strong>📈 Tasa de Éxito:</strong> {{success_rate}}%
+            </div>
+            
+            <p>Gracias a la generosidad de nuestros donantes, ahora podemos generar un impacto real. ¡Manténganse atentos para actualizaciones sobre cómo se están utilizando los fondos!</p>
+        </div>
+        <div class="footer">
+            <p>Recibiste este correo porque te suscribiste a nuestro boletín.</p>
+            <p><a href="{{unsubscribe_url}}">Cancelar suscripción</a> | <a href="{{website_url}}">Visitar sitio web</a></p>
+        </div>
+    </div>
+</body>
+</html>

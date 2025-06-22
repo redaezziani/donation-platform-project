@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.endpoints import auth, users, campaigns, donations, analytics
+from app.api.endpoints import auth, users, campaigns, donations, analytics, newsletter
 from app.core.config import settings
 
 # Create API router
@@ -20,3 +20,6 @@ api_router.include_router(donations.router, prefix=f"{settings.API_V1_STR}/donat
 
 # Include analytics endpoints
 api_router.include_router(analytics.router, prefix=f"{settings.API_V1_STR}/analytics", tags=["analytics"])
+
+# Include newsletter endpoints
+api_router.include_router(newsletter.router, prefix=f"{settings.API_V1_STR}/newsletter", tags=["newsletter"])

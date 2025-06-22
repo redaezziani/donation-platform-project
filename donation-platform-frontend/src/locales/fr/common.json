@@ -474,7 +474,24 @@
     "totalDonations": "Dons Totaux",
     "campaigns": "Campagnes",
     "percentage": "Pourcentage",
-    "errorLoading": "Erreur lors du chargement des données d'analyse"
+    "errorLoading": "Erreur lors du chargement des données d'analyse",
+    "totalCampaigns": "Total Campagnes",
+    "totalUsers": "Total Utilisateurs",
+    "newsletterSubscribers": "Abonnés Newsletter",
+    "active": "actives",
+    "completed": "terminées",
+    "fromDonations": "De {count} dons",
+    "registeredUsers": "Utilisateurs enregistrés",
+    "activeSubscribers": "Abonnés actifs",
+    "donationTrendsDescription": "Affichage des tendances de dons des 30 derniers jours",
+    "campaignStatusDescription": "Distribution du statut des campagnes",
+    "categoryDistributionDescription": "Distribution des campagnes par catégorie",
+    "recentDonationActivity": "Activité récente des dons",
+    "dailyDonationAmounts": "Montants et nombres de dons quotidiens",
+    "campaignActivityOverview": "Aperçu de l'activité des campagnes",
+    "currentStatusCampaigns": "Statut actuel de toutes les campagnes",
+    "popularCampaignCategories": "Catégories de campagnes les plus populaires",
+    "basedOnCampaignCount": "Basé sur le nombre total de campagnes"
   },
   "categories": {
     "waterProjects": "Projets d'Eau",
@@ -490,5 +507,47 @@
     "french": "Français",
     "spanish": "Español",
     "russian": "Русский"
+  },
+  "charts": {
+    "noDataAvailable": "Aucune donnée disponible",
+    "noDonationDataAvailable": "Aucune donnée de don disponible",
+    "noCategoryDataAvailable": "Aucune donnée de catégorie disponible",
+    "campaigns": "Campagnes",
+    "donations": "Dons",
+    "amount": "Montant",
+    "labels": {
+      "donations": "Dons",
+      "amount": "Montant",
+      "campaigns": "Campagnes"
+    },
+    "weeklyOverview": {
+      "title": "Aperçu Hebdomadaire - Plateforme de Dons",
+      "description": "Afficher les statistiques de dons et d'utilisateurs pour les 16 dernières semaines",
+      "descriptionWithError": "Afficher les statistiques de dons et d'utilisateurs pour les 16 dernières semaines (données de test affichées)",
+      "donationsLabel": "Dons (€)",
+      "usersLabel": "Nouveaux Utilisateurs",
+      "totalDonations": "Total des Dons",
+      "newUsers": "Nouveaux Utilisateurs",
+      "weekLabel": "Semaine",
+      "dataFetchError": "Une erreur s'est produite lors de la récupération des données analytiques"
+    }
+  },
+  "newsletter": {
+    "statistics": "Statistiques Newsletter",
+    "testEmail": "E-mail de Test",
+    "createTestCampaign": "Créer Campagne Test",
+    "activeSubscribers": "Abonnés Actifs",
+    "recentSubscriptions": "Récents (30 jours)",
+    "totalSubscribers": "Total Abonnés",
+    "unsubscribed": "Désabonnés",
+    "recentSubscribers": "Abonnés Récents",
+    "noSubscribersYet": "Aucun abonné pour le moment",
+    "failedToLoad": "Échec du chargement des données de newsletter",
+    "testEmailSent": "E-mail de test envoyé avec succès !",
+    "testCampaignCreated": "Campagne test créée !",
+    "accessDenied": "Accès refusé : Privilèges administrateur requis",
+    "authenticationFailed": "Échec de l'authentification : Veuillez vous reconnecter",
+    "failedToSendTestEmail": "Échec de l'envoi de l'e-mail de test",
+    "failedToCreateTestCampaign": "Échec de la création de la campagne test"
   }
 }

@@ -5,6 +5,7 @@ import { adminAPI } from '../../lib/api';
 import { ChartBarInteractive } from '../../components/charts/chart-bar-interactive';
 import { useLanguage } from '../../hooks/useLanguage';
 import DashboardAnalytics from '../../components/DashboardAnalytics';
+import NewsletterStats from '../../components/admin/NewsletterStats';
 
 const AdminDashboardPage = () => {
   const { t, formatCurrency, formatDate } = useLanguage();
@@ -62,7 +63,7 @@ const AdminDashboardPage = () => {
       change: "+12%",
       increasing: true,
       icon: UsersIcon,
-      iconColor: "text-blue-500 bg-blue-100"
+      iconColor: "text-primary bg-primary/20"
     },
     {
       title: t('admin.totalCampaigns'),
@@ -70,7 +71,7 @@ const AdminDashboardPage = () => {
       change: "+7%",
       increasing: true,
       icon: HeartHandshakeIcon,
-      iconColor: "text-green-500 bg-green-100"
+      iconColor: "text-primary bg-primary/20"
     },
     {
       title: t('admin.totalRaised'),
@@ -78,7 +79,7 @@ const AdminDashboardPage = () => {
       change: "+18%",
       increasing: true,
       icon: DollarSignIcon,
-      iconColor: "text-amber-500 bg-amber-100"
+      iconColor: "text-primary bg-primary/20"
     },
     {
       title: t('donation.averageDonation'),
@@ -86,7 +87,7 @@ const AdminDashboardPage = () => {
       change: "+4%",
       increasing: true,
       icon: TrendingUpIcon,
-      iconColor: "text-purple-500 bg-purple-100"
+      iconColor: "text-primary bg-primary/20"
     }
   ];
 
@@ -113,7 +114,7 @@ const AdminDashboardPage = () => {
       <DashboardAnalytics />
 
 
-      <div className="grid grid-cols-1 mt-2 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 mt-2 lg:grid-cols-3 gap-6">
         <Card className="col-span-1">
           <CardHeader>
             <CardTitle>{t('admin.pendingApproval')}</CardTitle>
@@ -155,8 +156,8 @@ const AdminDashboardPage = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
-                    <HeartHandshakeIcon className="h-5 w-5 text-green-500" />
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                    <HeartHandshakeIcon className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <p className="font-medium">{t('admin.activeCampaigns')}</p>
@@ -167,8 +168,8 @@ const AdminDashboardPage = () => {
               
               <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                    <HeartHandshakeIcon className="h-5 w-5 text-amber-500" />
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                    <HeartHandshakeIcon className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <p className="font-medium">{t('admin.pendingApproval')}</p>
@@ -179,8 +180,8 @@ const AdminDashboardPage = () => {
 
               <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-                    <DollarSignIcon className="h-5 w-5 text-purple-500" />
+                  <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                    <DollarSignIcon className="h-5 w-5 text-primary" />
                   </div>
                   <div>
                     <p className="font-medium">{t('admin.totalRaised')}</p>
@@ -191,6 +192,10 @@ const AdminDashboardPage = () => {
             </div>
           </CardContent>
         </Card>
+        
+        <div className="col-span-1">
+          <NewsletterStats />
+        </div>
       </div>
     </div>
   );

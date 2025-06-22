@@ -13,6 +13,7 @@ import CampaignDetailsPage from './pages/CampaignDetailsPage';
 import CreateCampaignPage from './pages/CreateCampaignPage';
 import AboutPage from './pages/AboutPage';
 import HowItWorksPage from './pages/HowItWorksPage';
+import UnsubscribePage from './pages/UnsubscribePage';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
@@ -128,6 +129,7 @@ function App() {
               <Footer />
             </>
           } />
+          <Route path="/unsubscribe" element={<UnsubscribePage />} />
           
           {/* Protected routes */}
           <Route path="/create-campaign" element={
