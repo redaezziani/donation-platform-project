@@ -101,9 +101,9 @@ class EmailService:
                 'target_amount': f"{campaign.target_amount:,.2f}",
                 'current_amount': f"{campaign.current_amount:,.2f}",
                 'end_date': campaign.end_date.strftime('%B %d, %Y') if campaign.end_date else 'No end date',
-                'campaign_url': f"http://192.168.100.77:5173/campaigns/{campaign.id}",
-                'website_url': "http://192.168.100.77:5173",
-                'unsubscribe_url': "http://192.168.100.77:5173/unsubscribe?email={{email}}"
+                'campaign_url': f"http://localhost:5173/campaigns/{campaign.id}",
+                'website_url': "http://localhost:5173",
+                'unsubscribe_url': "http://localhost:5173/unsubscribe?email={{email}}"
             }
             
             # Load and render templates
@@ -157,8 +157,8 @@ class EmailService:
                 'target_amount': f"{campaign.target_amount:,.2f}",
                 'current_amount': f"{campaign.current_amount:,.2f}",
                 'success_rate': f"{success_rate:.1f}",
-                'website_url': "http://192.168.100.77:5173",
-                'unsubscribe_url': "http://192.168.100.77:5173/unsubscribe?email={{email}}"
+                'website_url': "http://localhost:5173",
+                'unsubscribe_url': "http://localhost:5173/unsubscribe?email={{email}}"
             }
             
             # Load and render templates

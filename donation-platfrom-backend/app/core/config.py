@@ -5,30 +5,37 @@ import os
 
 class Settings(BaseSettings):
     # Database settings
-    DATABASE_URL: str = "mysql+pymysql://user:password@localhost/donation_db"
+    DATABASE_URL: str = "mysql+pymysql://donation_user:donation_pass@localhost:3306/donation_db"
     
     # API settings
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = "Donation Platform"
     
-    # JWT settings for authentication (for future use)
-    SECRET_KEY: str = "your-secret-key-here"
+    # JWT settings for authentication
+    SECRET_KEY: str = "your-secret-key-change-this-in-production"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     
     # Stripe Configuration
-    STRIPE_SECRET_KEY: str = os.getenv("STRIPE_SECRET_KEY", "sk_test_...")
-    STRIPE_PUBLISHABLE_KEY: str = os.getenv("STRIPE_PUBLISHABLE_KEY", "pk_test_...")
-    STRIPE_WEBHOOK_SECRET: str = os.getenv("STRIPE_WEBHOOK_SECRET", "whsec_...")
+    STRIPE_SECRET_KEY: str = "sk_test_..."
+    STRIPE_PUBLISHABLE_KEY: str = "pk_test_..."
+    STRIPE_WEBHOOK_SECRET: str = "whsec_..."
     
     # Email Configuration
-    SMTP_SERVER: str = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-    SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
-    SMTP_USERNAME: str = os.getenv("SMTP_USERNAME", "")
-    SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
-    FROM_EMAIL: str = os.getenv("FROM_EMAIL", "noreply@qalbwahed.org")
+    SMTP_SERVER: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_USERNAME: str = ""
+    SMTP_PASSWORD: str = ""
+    FROM_EMAIL: str = "noreply@qalbwahed.org"
+    
+    # Environment
+    ENVIRONMENT: str = "development"
+    
+    # Frontend URL for CORS and email links
+    FRONTEND_URL: str = "http://localhost:5173"
     
     class Config:
         env_file = ".env"
+        case_sensitive = True
 
 
 settings = Settings()

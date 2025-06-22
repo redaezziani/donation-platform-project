@@ -6,10 +6,10 @@ services:
     image: mysql:8.0
     container_name: donation_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: donation_db
-      MYSQL_USER: donation_user
-      MYSQL_PASSWORD: donation_pass
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-donation_db}
+      MYSQL_USER: ${MYSQL_USER:-donation_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-donation_pass}
     ports:
       - "3306:3306"
     volumes:
@@ -17,6 +17,10 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - donation_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   # Backend API
   backend:
@@ -25,40 +29,57 @@ services:
       dockerfile: Dockerfile
     container_name: donation_backend
     environment:
-      DATABASE_URL: mysql+pymysql://donation_user:donation_pass@mysql:3306/donation_db
-      SECRET_KEY: your-secret-key-change-in-production
+      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-donation_user}:${MYSQL_PASSWORD:-donation_pass}@mysql:3306/${MYSQL_DATABASE:-donation_db}
+      SECRET_KEY: ${SECRET_KEY:-your-secret-key-change-in-production}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      API_V1_STR: ${API_V1_STR:-/api/v1}
+      PROJECT_NAME: ${PROJECT_NAME:-Donation Platform}
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
       STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
-      SMTP_SERVER: ${SMTP_SERVER}
-      SMTP_PORT: ${SMTP_PORT}
+      SMTP_SERVER: ${SMTP_SERVER:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
       SMTP_USERNAME: ${SMTP_USERNAME}
       SMTP_PASSWORD: ${SMTP_PASSWORD}
-      FROM_EMAIL: ${FROM_EMAIL}
+      FROM_EMAIL: ${FROM_EMAIL:-noreply@qalbwahed.org}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      ENVIRONMENT: ${ENVIRONMENT:-production}
     ports:
       - "8000:8000"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     volumes:
       - ./donation-platfrom-backend/uploads:/app/uploads
     networks:
       - donation_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # Frontend
   frontend:
     build:
       context: ./donation-platform-frontend
       dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+        VITE_STRIPE_PUBLISHABLE_KEY: ${VITE_STRIPE_PUBLISHABLE_KEY:-${STRIPE_PUBLISHABLE_KEY}}
+        VITE_ENVIRONMENT: ${VITE_ENVIRONMENT:-production}
     container_name: donation_frontend
-    environment:
-      VITE_API_BASE_URL: http://localhost:8000
-      VITE_STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
     ports:
       - "3000:3000"
     depends_on:
       - backend
     networks:
       - donation_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   mysql_data:

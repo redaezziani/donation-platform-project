@@ -1,8 +1,8 @@
 import axios from 'axios';
 import i18n from './i18n.js';
 
-// Base API configuration
-const API_BASE_URL = 'http://192.168.100.77:8000';
+// Base API configuration - use environment variable with fallback
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 // Create axios instance
 const api = axios.create({

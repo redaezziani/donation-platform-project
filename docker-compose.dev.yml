@@ -1,0 +1,84 @@
+version: '3.8'
+
+# Development version of docker-compose with hot-reload and development settings
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: donation_mysql_dev
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-devpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-donation_db_dev}
+      MYSQL_USER: ${MYSQL_USER:-donation_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-devpassword}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+    networks:
+      - donation_dev_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Backend API (Development mode with hot-reload)
+  backend:
+    build: 
+      context: ./donation-platfrom-backend
+      dockerfile: Dockerfile
+    container_name: donation_backend_dev
+    environment:
+      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-donation_user}:${MYSQL_PASSWORD:-devpassword}@mysql:3306/${MYSQL_DATABASE:-donation_db_dev}
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key-not-for-production}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
+      API_V1_STR: ${API_V1_STR:-/api/v1}
+      PROJECT_NAME: ${PROJECT_NAME:-Donation Platform Dev}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-sk_test_...}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY:-pk_test_...}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_...}
+      SMTP_SERVER: ${SMTP_SERVER:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      FROM_EMAIL: ${FROM_EMAIL:-noreply@dev.local}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      ENVIRONMENT: development
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./donation-platfrom-backend:/app  # Mount source code for hot-reload
+      - ./donation-platfrom-backend/uploads:/app/uploads
+    networks:
+      - donation_dev_network
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  # Frontend (Development mode with hot-reload)
+  frontend:
+    build:
+      context: ./donation-platform-frontend
+      dockerfile: Dockerfile.dev
+    container_name: donation_frontend_dev
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8000}
+      VITE_STRIPE_PUBLISHABLE_KEY: ${VITE_STRIPE_PUBLISHABLE_KEY:-pk_test_...}
+      VITE_ENVIRONMENT: development
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./donation-platform-frontend:/app  # Mount source code for hot-reload
+      - /app/node_modules  # Exclude node_modules from mount
+    networks:
+      - donation_dev_network
+
+volumes:
+  mysql_dev_data:
+
+networks:
+  donation_dev_network:
+    driver: bridge
