@@ -6,6 +6,7 @@ import './lib/i18n'; // Initialize i18n
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
+import CampaignsPage from './pages/CampaignsPage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CampaignDetailsPage from './pages/CampaignDetailsPage';
@@ -103,6 +104,13 @@ function App() {
             <>
               <Navbar />
               <CampaignDetailsPage />
+              <Footer />
+            </>
+          } />
+          <Route path="/campaigns" element={
+            <>
+              <Navbar />
+              <CampaignsPage />
               <Footer />
             </>
           } />

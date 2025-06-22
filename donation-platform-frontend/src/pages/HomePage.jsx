@@ -218,6 +218,16 @@ const HomePage = () => {
           </div>
         )}
       </div>
+      <section
+      
+      className=" w-full inset-shadow-md h-[500px] bg-primary text-white flex justify-start items-start"
+      >
+        <div className="w-full relative  max-w-7xl h-full  mx-auto px-4 md:px-4 flex flex-col md:flex-row gap-6">
+          
+        </div>
+
+
+      </section>
     </div>
   );
 };

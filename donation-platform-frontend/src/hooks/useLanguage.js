@@ -34,7 +34,7 @@ export const useLanguage = () => {
     }, [languageVersion, refreshCallback]);
   };
 
-  const formatCurrency = useCallback((amount, currency = 'SAR') => {
+  const formatCurrency = useCallback((amount, currency = 'USD') => {
     const locale = i18n.language === 'ar' ? 'ar-SA' : 
                    i18n.language === 'fr' ? 'fr-FR' :
                    i18n.language === 'es' ? 'es-ES' :

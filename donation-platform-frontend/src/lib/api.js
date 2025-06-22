@@ -2,7 +2,7 @@ import axios from 'axios';
 import i18n from './i18n.js';
 
 // Base API configuration
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = 'http://192.168.100.77:8000';
 
 // Create axios instance
 const api = axios.create({
@@ -19,8 +19,30 @@ export const getImageUrl = (imagePath) => {
   // If image path already starts with http, it's already a full URL
   if (imagePath.startsWith('http')) return imagePath;
   
-  // Otherwise, append it to the API base URL
-  return `${API_BASE_URL}/${imagePath}`;
+  // If it already starts with API_BASE_URL, return as is
+  if (imagePath.startsWith(API_BASE_URL)) return imagePath;
+  
+  // Handle different path formats
+  let cleanPath = imagePath;
+  
+  // Remove leading slash if present
+  if (cleanPath.startsWith('/')) {
+    cleanPath = cleanPath.substring(1);
+  }
+  
+  // If path doesn't start with uploads/, prepend it
+  if (!cleanPath.startsWith('uploads/')) {
+    // Handle cases where it might be campaigns/filename.jpg
+    if (cleanPath.includes('/') && !cleanPath.startsWith('uploads/')) {
+      cleanPath = `uploads/${cleanPath}`;
+    } else {
+      // Single filename, assume it's in campaigns folder
+      cleanPath = `uploads/campaigns/${cleanPath}`;
+    }
+  }
+  
+  // Construct final URL
+  return `${API_BASE_URL}/${cleanPath}`;
 };
 
 // Helper function to get current language

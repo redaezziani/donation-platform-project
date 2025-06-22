@@ -21,7 +21,7 @@ const FeaturedCampaignCard = ({ campaign, index }) => {
     >
       <div className="relative h-48 overflow-hidden">
         <img
-          src={getImageUrl(campaign.image_url) || "https://live-production.wcms.abc-cdn.net.au/e51549cf941e56a46187c40f2d981d79?impolicy=wcms_crop_resize&cropH=1663&cropW=2958&xPos=42&yPos=102&width=862&height=485"}
+          src={getImageUrl(campaign.image_url) || "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="}
           alt={campaign.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
@@ -143,7 +143,7 @@ const FeaturedCampaigns = () => {
           <Link to={`/campaigns/${featuredCampaigns[0].id}`} className="block h-full">
             <div className="relative h-full group">
               <img
-                src={getImageUrl(featuredCampaigns[0].image_url) || "https://live-production.wcms.abc-cdn.net.au/e51549cf941e56a46187c40f2d981d79?impolicy=wcms_crop_resize&cropH=1663&cropW=2958&xPos=42&yPos=102&width=862&height=485"}
+                src={getImageUrl(featuredCampaigns[0].image_url) || "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="}
                 alt={featuredCampaigns[0].title}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -187,7 +187,7 @@ const FeaturedCampaigns = () => {
             <Link to={`/campaigns/${featuredCampaigns[1].id}`} className="block h-full">
               <div className="relative h-full group">
                 <img
-                  src={getImageUrl(featuredCampaigns[1].image_url) || "https://live-production.wcms.abc-cdn.net.au/e51549cf941e56a46187c40f2d981d79?impolicy=wcms_crop_resize&cropH=1663&cropW=2958&xPos=42&yPos=102&width=862&height=485"}
+                  src={getImageUrl(featuredCampaigns[1].image_url) || "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="}
                   alt={featuredCampaigns[1].title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -218,7 +218,7 @@ const FeaturedCampaigns = () => {
             <Link to={`/campaigns/${featuredCampaigns[2].id}`} className="block h-full">
               <div className="relative h-full group">
                 <img
-                  src={getImageUrl(featuredCampaigns[2].image_url) || "https://live-production.wcms.abc-cdn.net.au/e51549cf941e56a46187c40f2d981d79?impolicy=wcms_crop_resize&cropH=1663&cropW=2958&xPos=42&yPos=102&width=862&height=485"}
+                  src={getImageUrl(featuredCampaigns[2].image_url) || "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="}
                   alt={featuredCampaigns[2].title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />

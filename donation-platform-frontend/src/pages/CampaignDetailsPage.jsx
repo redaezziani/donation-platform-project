@@ -214,11 +214,11 @@ const CampaignDetailsPage = () => {
         <img
           src={getImageUrl(campaign.image_path)}
           alt={campaign.title}
-          className="w-full h-full saturate-0 object-center"
+          className="w-full h-full object-center"
           onError={(e) => {
             e.target.onerror = null;
             e.target.src =
-              "https://www.worldvision.org.uk/media/5iahsfjo/d232-0344-226_.jpg";
+              "https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ=";
           }}
         />
       </div>
