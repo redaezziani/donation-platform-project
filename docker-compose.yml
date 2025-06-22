@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: donation_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: donation_db
+      MYSQL_USER: donation_user
+      MYSQL_PASSWORD: donation_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - donation_network
+
+  # Backend API
+  backend:
+    build: 
+      context: ./donation-platfrom-backend
+      dockerfile: Dockerfile
+    container_name: donation_backend
+    environment:
+      DATABASE_URL: mysql+pymysql://donation_user:donation_pass@mysql:3306/donation_db
+      SECRET_KEY: your-secret-key-change-in-production
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+      SMTP_SERVER: ${SMTP_SERVER}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USERNAME: ${SMTP_USERNAME}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      FROM_EMAIL: ${FROM_EMAIL}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    volumes:
+      - ./donation-platfrom-backend/uploads:/app/uploads
+    networks:
+      - donation_network
+
+  # Frontend
+  frontend:
+    build:
+      context: ./donation-platform-frontend
+      dockerfile: Dockerfile
+    container_name: donation_frontend
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+      VITE_STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - donation_network
+
+volumes:
+  mysql_data:
+
+networks:
+  donation_network:
+    driver: bridge
