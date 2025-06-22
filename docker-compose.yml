@@ -1,26 +1,24 @@
-version: '3.8'
-
 services:
-  # MySQL Database
-  mysql:
-    image: mysql:8.0
-    container_name: donation_mysql
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: donation_postgres
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-donation_db}
-      MYSQL_USER: ${MYSQL_USER:-donation_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-donation_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-donation_db}
+      POSTGRES_USER: ${POSTGRES_USER:-donation_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-donation_pass}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - donation_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-donation_user} -d ${POSTGRES_DB:-donation_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Backend API
   backend:
@@ -29,7 +27,7 @@ services:
       dockerfile: Dockerfile
     container_name: donation_backend
     environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-donation_user}:${MYSQL_PASSWORD:-donation_pass}@mysql:3306/${MYSQL_DATABASE:-donation_db}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-donation_user}:${POSTGRES_PASSWORD:-donation_pass}@postgres:5432/${POSTGRES_DB:-donation_db}
       SECRET_KEY: ${SECRET_KEY:-your-secret-key-change-in-production}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
       API_V1_STR: ${API_V1_STR:-/api/v1}
@@ -47,14 +45,14 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
     volumes:
       - ./donation-platfrom-backend/uploads:/app/uploads
     networks:
       - donation_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -70,19 +68,19 @@ services:
         VITE_ENVIRONMENT: ${VITE_ENVIRONMENT:-production}
     container_name: donation_frontend
     ports:
-      - "3000:3000"
+      - "3000:80"
     depends_on:
       - backend
     networks:
       - donation_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
       interval: 30s
       timeout: 10s
       retries: 3
 
 volumes:
-  mysql_data:
+  postgres_data:
 
 networks:
   donation_network:

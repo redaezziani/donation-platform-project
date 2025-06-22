@@ -1,26 +1,25 @@
-version: '3.8'
-
 # Development version of docker-compose with hot-reload and development settings
 services:
-  # MySQL Database
-  mysql:
-    image: mysql:8.0
-    container_name: donation_mysql_dev
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: donation_postgres_dev
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-devpassword}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-donation_db_dev}
-      MYSQL_USER: ${MYSQL_USER:-donation_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-devpassword}
+      POSTGRES_DB: ${POSTGRES_DB:-donation_db_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-donation_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_dev_data:/var/lib/mysql
+      - postgres_dev_data:/var/lib/postgresql/data
     networks:
       - donation_dev_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-donation_user} -d ${POSTGRES_DB:-donation_db_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # Backend API (Development mode with hot-reload)
   backend:
@@ -29,7 +28,7 @@ services:
       dockerfile: Dockerfile
     container_name: donation_backend_dev
     environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-donation_user}:${MYSQL_PASSWORD:-devpassword}@mysql:3306/${MYSQL_DATABASE:-donation_db_dev}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-donation_user}:${POSTGRES_PASSWORD:-devpassword}@postgres:5432/${POSTGRES_DB:-donation_db_dev}
       SECRET_KEY: ${SECRET_KEY:-dev-secret-key-not-for-production}
       ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-60}
       API_V1_STR: ${API_V1_STR:-/api/v1}
@@ -47,7 +46,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
     volumes:
       - ./donation-platfrom-backend:/app  # Mount source code for hot-reload
@@ -77,7 +76,7 @@ services:
       - donation_dev_network
 
 volumes:
-  mysql_dev_data:
+  postgres_dev_data:
 
 networks:
   donation_dev_network:

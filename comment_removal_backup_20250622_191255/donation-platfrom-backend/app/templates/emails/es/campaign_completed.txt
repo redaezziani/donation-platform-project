@@ -1,0 +1,14 @@
+Campaña Completada Exitosamente: {{campaign_title}}
+
+¡Nos complace anunciar que esta campaña ha alcanzado su objetivo!
+
+Cantidad Objetivo: ${{target_amount}}
+Cantidad Recaudada: ${{current_amount}}
+Tasa de Éxito: {{success_rate}}%
+
+Gracias a la generosidad de nuestros donantes, ahora podemos generar un impacto real. ¡Manténganse atentos para actualizaciones sobre cómo se están utilizando los fondos!
+
+---
+Recibiste este correo porque te suscribiste a nuestro boletín.
+Cancelar suscripción: {{unsubscribe_url}}
+Visitar sitio web: {{website_url}}

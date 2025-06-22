@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #f5f5f5; 
+            direction: ltr;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background-color: white; 
+            border-radius: 8px; 
+            overflow: hidden; 
+        }
+        .header { 
+            background-color: #ff4f1c; 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        .content { 
+            padding: 20px; 
+        }
+        .success-info { 
+            background-color: #ecfdf5; 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin: 15px 0; 
+            border-left: 4px solid #ff4f1c; 
+        }
+        .footer { 
+            background-color: #f1f5f9; 
+            padding: 15px; 
+            text-align: center; 
+            font-size: 12px; 
+            color: #64748b; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Campaign Successfully Completed!</h1>
+        </div>
+        <div class="content">
+            <h2>{{campaign_title}}</h2>
+            <p>We're thrilled to announce that this campaign has reached its goal!</p>
+            
+            <div class="success-info">
+                <strong>🎯 Target Amount:</strong> ${{target_amount}}<br>
+                <strong>💰 Amount Raised:</strong> ${{current_amount}}<br>
+                <strong>📈 Success Rate:</strong> {{success_rate}}%
+            </div>
+            
+            <p>Thanks to the generosity of our donors, we can now make a real impact. Stay tuned for updates on how the funds are being used!</p>
+        </div>
+        <div class="footer">
+            <p>You received this email because you subscribed to our newsletter.</p>
+            <p><a href="{{unsubscribe_url}}">Unsubscribe</a> | <a href="{{website_url}}">Visit Website</a></p>
+        </div>
+    </div>
+</body>
+</html>
